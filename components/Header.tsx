@@ -1,25 +1,65 @@
 import { BrandMark } from "@/components/BrandMark";
+import { FaInstagram } from "react-icons/fa6";
+
+const links = [
+  ["Home", "#"],
+  ["Fixtures", "#fixtures"],
+  ["Table", "#table"],
+  ["Team", "#team"],
+  ["About", "#about"],
+  ["Sponsors", "#sponsors"],
+  ["Contact", "#contact"],
+];
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-        <a href="#" aria-label="Hull Hawks home">
+    <header className="absolute inset-x-0 top-0 z-50 border-b border-white/[0.07] bg-black/55 backdrop-blur-md">
+      <div className="mx-auto flex h-[92px] max-w-[1600px] items-center justify-between px-5 md:px-8 xl:px-12">
+        <a
+          href="#"
+          className="flex items-center gap-4"
+          aria-label="Hull Hawks home"
+        >
           <BrandMark compact />
+          <span className="sports-text hidden text-lg font-semibold uppercase tracking-[0.18em] sm:block">
+            Hull Hawks
+          </span>
         </a>
 
-        <nav className="flex items-center gap-4 text-xs font-black uppercase tracking-[0.12em] sm:gap-6">
-          <a href="#fixtures" className="hidden text-white/60 hover:text-white sm:block">Fixtures</a>
-          <a href="#table" className="hidden text-white/60 hover:text-white sm:block">Table</a>
+        <nav className="hidden items-center gap-8 lg:flex">
+          {links.map(([label, href], i) => (
+            <a
+              key={label}
+              href={href}
+              className={`sports-text relative py-3 text-[13px] font-semibold uppercase tracking-[0.13em] text-white/75 transition hover:text-white ${
+                i === 0
+                  ? "after:absolute after:inset-x-0 after:-bottom-[2px] after:h-[2px] after:bg-[var(--red)]"
+                  : ""
+              }`}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-3">
           <a
             href="https://www.instagram.com/hullhawks/"
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-white/15 px-4 py-2 hover:border-[var(--red)] hover:bg-[var(--red)]"
+            aria-label="Instagram"
+            className="grid h-11 w-11 place-items-center text-xl transition hover:text-[var(--red)]"
           >
-            Instagram
+            <FaInstagram size={32} />
           </a>
-        </nav>
+
+          <a
+            href="#sponsors"
+            className="sports-text hidden rounded-md bg-[var(--red)] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.10em] transition hover:bg-[var(--red-dark)] sm:block"
+          >
+            Support us
+          </a>
+        </div>
       </div>
     </header>
   );

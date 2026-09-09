@@ -1,26 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --black: #090909;
-  --charcoal: #141414;
+  --black: #09090a;
+  --charcoal: #121214;
+  --panel: #111113;
   --red: #ce3e44;
-  --red-dark: #922b30;
-  --white: #f7f7f5;
+  --red-dark: #8f2a2f;
+  --white: #f7f6f3;
+  --muted: #9d9a97;
+  --line: rgba(255,255,255,.12);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
+  background: var(--black);
 }
 
 body {
   margin: 0;
   background: var(--black);
   color: var(--white);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-barlow), Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
 }
 
 ::selection {
@@ -28,17 +32,105 @@ body {
   color: white;
 }
 
-.hawks-bg {
+.hawks-page {
+  min-height: 100vh;
+  overflow-x: hidden;
   background:
-    radial-gradient(
-      circle at 78% 18%,
-      rgba(227, 27, 35, 0.25),
-      transparent 32%
-    ),
-    linear-gradient(
-      115deg,
-      transparent 0 44%,
-      rgba(227, 27, 35, 0.12) 44% 47%,
-      transparent 47% 100%
-    );
+    radial-gradient(circle at 0 32%, rgba(206,62,68,.07), transparent 24%),
+    radial-gradient(circle at 100% 85%, rgba(206,62,68,.07), transparent 25%),
+    var(--black);
+}
+
+.hero {
+  position: relative;
+  min-height: 720px;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url("/images/hawks-hero.jpg");
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  transform: scale(1.035);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(5,5,6,.96) 0%, rgba(5,5,6,.78) 34%, rgba(5,5,6,.20) 70%, rgba(5,5,6,.08) 100%),
+    linear-gradient(180deg, rgba(5,5,6,.16) 0%, rgba(5,5,6,.03) 55%, rgba(5,5,6,.98) 100%);
+}
+
+.display-title {
+  font-family: var(--font-barlow-condensed), Arial, sans-serif;
+  font-size: clamp(5.2rem, 8vw, 9.3rem);
+  line-height: .82;
+  letter-spacing: -.025em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-family: var(--font-barlow-condensed), Arial, sans-serif;
+  font-size: .95rem;
+  letter-spacing: .32em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: var(--font-barlow-condensed), Arial, sans-serif;
+  letter-spacing: .22em;
+  font-size: 1.08rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.meta {
+  font-family: var(--font-barlow), Arial, sans-serif;
+  letter-spacing: .12em;
+  font-size: .72rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(19,19,21,.98), rgba(10,10,11,.99));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 20px 50px rgba(0,0,0,.34);
+}
+
+.sports-text {
+  font-family: var(--font-barlow-condensed), Arial, sans-serif;
+}
+
+@media (max-width: 900px) {
+  body {
+    font-size: 16px;
+  }
+
+  .hero {
+    min-height: 670px;
+  }
+
+  .hero::before {
+    background-attachment: scroll;
+    background-position: 68% top;
+  }
+
+  .hero::after {
+    background:
+      linear-gradient(180deg, rgba(5,5,6,.45) 0%, rgba(5,5,6,.60) 42%, rgba(5,5,6,.98) 100%),
+      linear-gradient(90deg, rgba(5,5,6,.84), rgba(5,5,6,.16));
+  }
 }

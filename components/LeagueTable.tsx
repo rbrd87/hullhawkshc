@@ -1,38 +1,83 @@
-import type { LeagueRow } from "@/types/hockey";
 import { HULL_HAWKS_TEAM } from "@/lib/hockey";
+import type { LeagueRow } from "@/types/hockey";
 
-export function LeagueTable({ rows }: { rows: LeagueRow[] }) {
+export function LeagueTable({
+  rows,
+  compact = false,
+}: {
+  rows: LeagueRow[];
+  compact?: boolean;
+}) {
+  const visible = compact ? rows.slice(0, 5) : rows;
+
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-white/10">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[650px] border-collapse text-left">
-          <thead className="bg-white/[0.04] text-xs uppercase tracking-[0.16em] text-white/35">
-            <tr>
-              <th className="px-5 py-4">#</th><th className="px-5 py-4">Team</th>
-              <th className="px-3 py-4 text-center">P</th><th className="px-3 py-4 text-center">W</th>
-              <th className="px-3 py-4 text-center">D</th><th className="px-3 py-4 text-center">L</th>
-              <th className="px-3 py-4 text-center">GD</th><th className="px-5 py-4 text-right">Pts</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => {
-              const hawks = row.team === HULL_HAWKS_TEAM;
-              return (
-                <tr key={row.team} className={hawks ? "bg-[var(--red)] text-white" : "border-t border-white/10"}>
-                  <td className="px-5 py-4 font-bold">{row.position}</td>
-                  <td className="px-5 py-4 font-black">{row.team}</td>
-                  <td className="px-3 py-4 text-center">{row.played}</td>
-                  <td className="px-3 py-4 text-center">{row.won}</td>
-                  <td className="px-3 py-4 text-center">{row.drawn}</td>
-                  <td className="px-3 py-4 text-center">{row.lost}</td>
-                  <td className="px-3 py-4 text-center">{row.goalDifference > 0 ? "+" : ""}{row.goalDifference}</td>
-                  <td className="px-5 py-4 text-right text-lg font-black">{row.points}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+    <div className="w-full">
+      <table className="w-full table-fixed border-separate border-spacing-0 text-left">
+        <thead>
+          <tr className="text-[11px] uppercase tracking-[.12em] text-white/42">
+            <th className="w-9 border-b border-white/10 py-3">#</th>
+            <th className="border-b border-white/10 py-3">Team</th>
+            <th className="w-12 border-b border-white/10 py-3 text-center">P</th>
+            {!compact && (
+              <th className="w-12 border-b border-white/10 py-3 text-center">GD</th>
+            )}
+            <th className="w-14 border-b border-white/10 py-3 text-right">Pts</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {visible.map((row) => {
+            const hawks = row.team === HULL_HAWKS_TEAM;
+
+            return (
+              <tr key={row.team} className={hawks ? "bg-[var(--red)]" : ""}>
+                <td
+                  className={`py-3 pl-2 text-base font-medium ${
+                    hawks ? "" : "border-b border-white/[.07]"
+                  }`}
+                >
+                  {row.position}
+                </td>
+
+                <td
+                  className={`sports-text truncate py-3 text-lg font-semibold ${
+                    hawks ? "" : "border-b border-white/[.07]"
+                  }`}
+                >
+                  {row.team}
+                </td>
+
+                <td
+                  className={`py-3 text-center text-base ${
+                    hawks ? "" : "border-b border-white/[.07]"
+                  }`}
+                >
+                  {row.played}
+                </td>
+
+                {!compact && (
+                  <td
+                    className={`py-3 text-center text-base ${
+                      hawks ? "" : "border-b border-white/[.07]"
+                    }`}
+                  >
+                    {row.goalDifference > 0 ? "+" : ""}
+                    {row.goalDifference}
+                  </td>
+                )}
+
+                <td
+                  className={`py-3 pr-2 text-right text-base font-semibold ${
+                    hawks ? "" : "border-b border-white/[.07]"
+                  }`}
+                >
+                  {row.points}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
