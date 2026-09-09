@@ -66,7 +66,7 @@ export function LeagueTable({
 
             return (
               <tr key={row.team} className={hawks ? "bg-[var(--red)]" : ""}>
-                <td className="py-3">{row.position}</td>
+                <td className="py-3 text-center">{row.position}</td>
                 <td className="py-3 font-medium">{row.team}</td>
                 <td className="py-3 text-center">{row.played}</td>
                 {!compact && (
