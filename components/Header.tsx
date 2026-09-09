@@ -54,7 +54,7 @@ export function Header() {
           </a>
 
           <a
-            href="#sponsors"
+            href="#support"
             className="sports-text hidden rounded-md bg-[var(--red)] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.10em] transition hover:bg-[var(--red-dark)] sm:block"
           >
             Support us

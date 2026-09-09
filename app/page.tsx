@@ -10,8 +10,26 @@ export default async function Home() {
   const upcoming = getUpcomingFixtures(data.fixtures);
   const results = getResults(data.fixtures);
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "SportsTeam",
+    name: "Hull Hawks Hockey Club",
+    alternateName: "Hull Hawks HC",
+    url: "https://www.hullhawkshc.co.uk",
+    logo: "https://www.hullhawkshc.co.uk/images/hull-hawks-logo.png",
+    sport: "Field Hockey",
+    email: "hullhawkshockey@gmail.com",
+    sameAs: ["https://www.instagram.com/hullhawks/"],
+  };
+
   return (
     <main className="hawks-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
       <section className="hero">
         <Header />
 
@@ -163,6 +181,80 @@ export default async function Home() {
           team information and anything else you want future players and
           supporters to know.
         </p>
+      </section>
+
+      <section id="contact" className="border-t border-white/10 py-24">
+        <div className="mx-auto max-w-[1600px] px-5 md:px-8 xl:px-12">
+          <p className="eyebrow text-[var(--red)]">Get in touch</p>
+
+          <h2 className="display-section mt-4">CONTACT THE HAWKS</h2>
+
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+            Want to join the team, arrange a fixture, talk sponsorship or just
+            have a question? We&apos;d love to hear from you.
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-4">
+            <a
+              href="mailto:hullhawkshockey@gmail.com"
+              className="sports-text inline-flex items-center justify-center bg-[var(--red)] px-7 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[var(--red-dark)]"
+            >
+              Email Us →
+            </a>
+
+            <a
+              href="https://www.instagram.com/hullhawks/"
+              target="_blank"
+              rel="noreferrer"
+              className="sports-text inline-flex items-center justify-center border-2 border-[var(--red)] px-7 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[var(--red)]"
+            >
+              Instagram →
+            </a>
+          </div>
+
+          <p className="mt-5 text-sm text-white/45">
+            hullhawkshockey@gmail.com
+          </p>
+        </div>
+      </section>
+
+      <section
+        id="support"
+        className="border-t border-white/10 bg-white/[0.02] py-24"
+      >
+        <div className="mx-auto max-w-[1600px] px-5 md:px-8 xl:px-12">
+          <div className="grid gap-12 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+            <div>
+              <p className="eyebrow text-[var(--red)]">Support Hull Hawks</p>
+
+              <h2 className="display-section mt-4">BACK THE HAWKS</h2>
+
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+                We&apos;re proud to represent women&apos;s hockey in Hull and
+                we&apos;re always interested in working with local businesses
+                and organisations who would like to support the team.
+              </p>
+
+              <a
+                href="mailto:hullhawkshockey@gmail.com?subject=Hull%20Hawks%20Sponsorship"
+                className="sports-text mt-9 inline-flex items-center justify-center bg-[var(--red)] px-7 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[var(--red-dark)]"
+              >
+                Talk To Us About Sponsorship →
+              </a>
+            </div>
+
+            <div className="border-l border-[var(--red)] pl-8">
+              <p className="sports-text text-lg font-semibold uppercase tracking-[0.12em]">
+                Interested in sponsoring the team?
+              </p>
+
+              <p className="mt-4 leading-7 text-white/55">
+                Get in touch to discuss opportunities to support Hull Hawks and
+                promote your business alongside the club.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <footer id="contact" className="border-t border-white/10">
