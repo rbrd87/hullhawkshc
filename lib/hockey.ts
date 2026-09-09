@@ -2,19 +2,9 @@ import type { Fixture, HawksData, LeagueRow } from "@/types/hockey";
 
 export const HULL_HAWKS_TEAM = "Hull Hawks 1";
 
-/**
- * This is deliberately the ONLY place that will know how England Hockey's
- * data is fetched. Once an authorised GMS API endpoint is available, replace
- * getDemoData() with the real request below.
- *
- * The intended production request will use:
- *
- *   fetch(url, { next: { revalidate: 86_400 } })
- *
- * so the upstream response is cached for 24 hours.
- */
 export async function getHawksData(): Promise<HawksData> {
-  // TODO: replace this with the authorised England Hockey GMS API request.
+  // When the authorised England Hockey endpoint is available, replace this
+  // with fetch(url, { next: { revalidate: 86_400 } })
   return getDemoData();
 }
 
@@ -31,17 +21,13 @@ export function getResults(fixtures: Fixture[]) {
 }
 
 export function resultForHawks(fixture: Fixture): "W" | "D" | "L" | null {
-  if (
-    fixture.status !== "completed" ||
-    fixture.homeScore === undefined ||
-    fixture.awayScore === undefined
-  ) {
+  if (fixture.status !== "completed" || fixture.homeScore === undefined || fixture.awayScore === undefined) {
     return null;
   }
 
-  const hawksAreHome = fixture.homeTeam === HULL_HAWKS_TEAM;
-  const hawks = hawksAreHome ? fixture.homeScore : fixture.awayScore;
-  const opponent = hawksAreHome ? fixture.awayScore : fixture.homeScore;
+  const home = fixture.homeTeam === HULL_HAWKS_TEAM;
+  const hawks = home ? fixture.homeScore : fixture.awayScore;
+  const opponent = home ? fixture.awayScore : fixture.homeScore;
 
   if (hawks > opponent) return "W";
   if (hawks < opponent) return "L";
@@ -49,9 +35,7 @@ export function resultForHawks(fixture: Fixture): "W" | "D" | "L" | null {
 }
 
 export function opponentForHawks(fixture: Fixture) {
-  return fixture.homeTeam === HULL_HAWKS_TEAM
-    ? fixture.awayTeam
-    : fixture.homeTeam;
+  return fixture.homeTeam === HULL_HAWKS_TEAM ? fixture.awayTeam : fixture.homeTeam;
 }
 
 export function isHawksHome(fixture: Fixture) {
@@ -88,7 +72,7 @@ function getDemoData(): HawksData {
       awayTeam: "Hull Hawks 1",
       venue: "Demo venue",
       status: "scheduled",
-    },
+    }
   ];
 
   const table: LeagueRow[] = [
