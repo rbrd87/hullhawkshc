@@ -180,7 +180,7 @@ async function Home() {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "mt-3",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$LeagueTable$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["LeagueTable"], {
-                                    rows: data.table,
+                                    rows: data.table.slice(0, 5),
                                     compact: true
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
@@ -778,60 +778,259 @@ function LeagueTable({ rows, compact = false }) {
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
             className: "w-full table-fixed border-separate border-spacing-0 text-left",
             children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                compact ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("colgroup", {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 18,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[62%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 19,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[15%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 20,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[15%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 21,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/LeagueTable.tsx",
+                    lineNumber: 17,
+                    columnNumber: 11
+                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("colgroup", {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[3%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 25,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[31%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 26,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 27,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 28,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 29,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 30,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 31,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 32,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 33,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                            className: "w-[8.25%]"
+                        }, void 0, false, {
+                            fileName: "[project]/components/LeagueTable.tsx",
+                            lineNumber: 34,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/LeagueTable.tsx",
+                    lineNumber: 24,
+                    columnNumber: 11
+                }, this),
+                compact ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
-                        className: "text-[11px] uppercase tracking-[.12em] text-white/42",
+                        className: "text-white/45",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                className: "w-9 border-b border-white/10 py-3",
+                                className: "pb-4 text-left",
                                 children: "#"
                             }, void 0, false, {
                                 fileName: "[project]/components/LeagueTable.tsx",
-                                lineNumber: 18,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                className: "border-b border-white/10 py-3",
-                                children: "Team"
-                            }, void 0, false, {
-                                fileName: "[project]/components/LeagueTable.tsx",
-                                lineNumber: 19,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                className: "w-12 border-b border-white/10 py-3 text-center",
-                                children: "P"
-                            }, void 0, false, {
-                                fileName: "[project]/components/LeagueTable.tsx",
-                                lineNumber: 20,
-                                columnNumber: 13
-                            }, this),
-                            !compact && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                className: "w-12 border-b border-white/10 py-3 text-center",
-                                children: "GD"
-                            }, void 0, false, {
-                                fileName: "[project]/components/LeagueTable.tsx",
-                                lineNumber: 22,
+                                lineNumber: 40,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                className: "w-14 border-b border-white/10 py-3 text-right",
+                                className: "pb-4 text-left",
+                                children: "Team"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 41,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "P"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 42,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
                                 children: "Pts"
                             }, void 0, false, {
                                 fileName: "[project]/components/LeagueTable.tsx",
-                                lineNumber: 24,
-                                columnNumber: 13
+                                lineNumber: 43,
+                                columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/LeagueTable.tsx",
-                        lineNumber: 17,
-                        columnNumber: 11
+                        lineNumber: 39,
+                        columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/LeagueTable.tsx",
-                    lineNumber: 16,
-                    columnNumber: 9
+                    lineNumber: 38,
+                    columnNumber: 11
+                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                        className: "text-white/45",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-left",
+                                children: "#"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 49,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-left",
+                                children: "Team"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 50,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "P"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 51,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "W"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 52,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "D"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 53,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "L"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 54,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "GF"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 55,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "GA"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 56,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "GD"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 57,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                className: "pb-4 text-center",
+                                children: "Pts"
+                            }, void 0, false, {
+                                fileName: "[project]/components/LeagueTable.tsx",
+                                lineNumber: 58,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/LeagueTable.tsx",
+                        lineNumber: 48,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/components/LeagueTable.tsx",
+                    lineNumber: 47,
+                    columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                     children: visible.map((row)=>{
@@ -840,58 +1039,103 @@ function LeagueTable({ rows, compact = false }) {
                             className: hawks ? "bg-[var(--red)]" : "",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                    className: `py-3 pl-2 text-base font-medium ${hawks ? "" : "border-b border-white/[.07]"}`,
+                                    className: "py-3",
                                     children: row.position
                                 }, void 0, false, {
                                     fileName: "[project]/components/LeagueTable.tsx",
-                                    lineNumber: 34,
+                                    lineNumber: 69,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                    className: `sports-text truncate py-3 text-lg font-semibold ${hawks ? "" : "border-b border-white/[.07]"}`,
+                                    className: "py-3 font-medium",
                                     children: row.team
                                 }, void 0, false, {
                                     fileName: "[project]/components/LeagueTable.tsx",
-                                    lineNumber: 42,
+                                    lineNumber: 70,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                    className: `py-3 text-center text-base ${hawks ? "" : "border-b border-white/[.07]"}`,
+                                    className: "py-3 text-center",
                                     children: row.played
                                 }, void 0, false, {
                                     fileName: "[project]/components/LeagueTable.tsx",
-                                    lineNumber: 50,
+                                    lineNumber: 71,
                                     columnNumber: 17
                                 }, this),
-                                !compact && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                    className: `py-3 text-center text-base ${hawks ? "" : "border-b border-white/[.07]"}`,
+                                !compact && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Fragment"], {
                                     children: [
-                                        row.goalDifference > 0 ? "+" : "",
-                                        row.goalDifference
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            className: "py-3 text-center",
+                                            children: row.won
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/LeagueTable.tsx",
+                                            lineNumber: 74,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            className: "py-3 text-center",
+                                            children: row.drawn
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/LeagueTable.tsx",
+                                            lineNumber: 75,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            className: "py-3 text-center",
+                                            children: row.lost
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/LeagueTable.tsx",
+                                            lineNumber: 76,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            className: "text-center",
+                                            children: row.goalsFor
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/LeagueTable.tsx",
+                                            lineNumber: 77,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            className: "text-center",
+                                            children: row.goalsAgainst
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/LeagueTable.tsx",
+                                            lineNumber: 78,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            className: "text-center",
+                                            children: row.goalDifference
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/LeagueTable.tsx",
+                                            lineNumber: 79,
+                                            columnNumber: 21
+                                        }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/LeagueTable.tsx",
-                                    lineNumber: 59,
+                                    lineNumber: 73,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                    className: `py-3 pr-2 text-right text-base font-semibold ${hawks ? "" : "border-b border-white/[.07]"}`,
+                                    className: "text-center font-semibold",
                                     children: row.points
                                 }, void 0, false, {
                                     fileName: "[project]/components/LeagueTable.tsx",
-                                    lineNumber: 69,
+                                    lineNumber: 82,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, row.team, true, {
                             fileName: "[project]/components/LeagueTable.tsx",
-                            lineNumber: 33,
+                            lineNumber: 68,
                             columnNumber: 15
                         }, this);
                     })
                 }, void 0, false, {
                     fileName: "[project]/components/LeagueTable.tsx",
-                    lineNumber: 28,
+                    lineNumber: 63,
                     columnNumber: 9
                 }, this)
             ]
@@ -1278,26 +1522,129 @@ __turbopack_context__.s([
     ()=>resultForHawks
 ]);
 const HULL_HAWKS_TEAM = "Hull Hawks 1";
+const TEAM_ID = "c4895023-e50e-43c2-b13c-6489df4e23d5";
+const COMPETITION_ID = "5161cc52-3c80-4dc8-b5e5-b72d3bd9f11e";
+const COMPETITION_GROUP_ID = "9dfdae0a-8e6f-4131-a840-1fff2d899ce9";
+const API_BASE = "https://ehdwapi.englandhockey.co.uk/api";
+const REVALIDATE_SECONDS = 86_400;
+async function fetchJson(url) {
+    const apiKey = process.env.ENGLAND_HOCKEY_API_KEY;
+    if (!apiKey) {
+        throw new Error("Missing ENGLAND_HOCKEY_API_KEY");
+    }
+    const response = await fetch(url, {
+        headers: {
+            "x-api-key": apiKey,
+            Accept: "application/json",
+            Referer: "https://yne.englandhockey.co.uk/"
+        },
+        next: {
+            revalidate: REVALIDATE_SECONDS
+        }
+    });
+    if (!response.ok) {
+        throw new Error(`England Hockey API request failed: ${response.status} ${response.statusText}`);
+    }
+    return response.json();
+}
+function mapStatus(fixture) {
+    if (fixture.isResult) {
+        return "completed";
+    }
+    const statusText = `${fixture.status ?? ""} ${fixture.statusDescription ?? ""}`.toLowerCase();
+    if (statusText.includes("postpon")) {
+        return "postponed";
+    }
+    return "scheduled";
+}
+function mapFixture(fixture) {
+    const completed = fixture.isResult;
+    return {
+        id: fixture.id,
+        date: fixture.fixtureDate.split("T")[0],
+        time: fixture.fixtureTime && fixture.fixtureTime !== "00:00" ? fixture.fixtureTime : undefined,
+        homeTeam: fixture.homeTeam.teamName,
+        awayTeam: fixture.awayTeam.teamName,
+        homeScore: completed ? fixture.homeTeamScoreAsInt : undefined,
+        awayScore: completed ? fixture.awayTeamScoreAsInt : undefined,
+        venue: fixture.venue || undefined,
+        status: mapStatus(fixture)
+    };
+}
+function mapTable(rows) {
+    return rows.map((row, index)=>({
+            position: index + 1,
+            team: row.teamName,
+            played: row.gamesPlayed,
+            won: row.gamesWon,
+            drawn: row.gamesDrawn,
+            lost: row.gamesLost,
+            goalsFor: row.goalsFor,
+            goalsAgainst: row.goalsAgainst,
+            goalDifference: row.goalsDifference,
+            points: row.totalPoints
+        }));
+}
+async function getFixtures() {
+    const url = `${API_BASE}/teams/${TEAM_ID}/fixturesandresults`;
+    const response = await fetchJson(url);
+    const league = response.find((competition)=>competition.competitionId === COMPETITION_ID);
+    if (!league) {
+        throw new Error("Hull Hawks league competition was not found in fixturesandresults.");
+    }
+    return league.fixtures.map(mapFixture);
+}
+async function getTable() {
+    const url = `${API_BASE}/competitiongroups/${COMPETITION_GROUP_ID}/tables`;
+    const response = await fetchJson(url);
+    const competition = response.data.find((item)=>item.id === COMPETITION_ID);
+    if (!competition) {
+        throw new Error("Hull Hawks league table was not found in the competition group.");
+    }
+    return mapTable(competition.table);
+}
 async function getHawksData() {
-    // When the authorised England Hockey endpoint is available, replace this
-    // with fetch(url, { next: { revalidate: 86_400 } })
-    return getDemoData();
+    const [fixturesResult, tableResult] = await Promise.allSettled([
+        getFixtures(),
+        getTable()
+    ]);
+    const fixtures = fixturesResult.status === "fulfilled" ? fixturesResult.value : [];
+    const table = tableResult.status === "fulfilled" ? tableResult.value : [];
+    if (fixturesResult.status === "rejected") {
+        console.error("Could not load Hull Hawks fixtures/results:", fixturesResult.reason);
+    }
+    if (tableResult.status === "rejected") {
+        console.error("Could not load Hull Hawks league table:", tableResult.reason);
+    }
+    return {
+        fixtures,
+        table,
+        source: "england-hockey"
+    };
 }
 function getUpcomingFixtures(fixtures) {
-    return fixtures.filter((fixture)=>fixture.status === "scheduled").sort((a, b)=>a.date.localeCompare(b.date));
+    return fixtures.filter((fixture)=>fixture.status === "scheduled").sort((a, b)=>{
+        const aDateTime = `${a.date}T${a.time ?? "23:59"}`;
+        const bDateTime = `${b.date}T${b.time ?? "23:59"}`;
+        return aDateTime.localeCompare(bDateTime);
+    });
 }
 function getResults(fixtures) {
-    return fixtures.filter((fixture)=>fixture.status === "completed").sort((a, b)=>b.date.localeCompare(a.date));
+    return fixtures.filter((fixture)=>fixture.status === "completed").sort((a, b)=>{
+        const aDateTime = `${a.date}T${a.time ?? "00:00"}`;
+        const bDateTime = `${b.date}T${b.time ?? "00:00"}`;
+        return bDateTime.localeCompare(aDateTime);
+    });
 }
 function resultForHawks(fixture) {
     if (fixture.status !== "completed" || fixture.homeScore === undefined || fixture.awayScore === undefined) {
         return null;
     }
-    const home = fixture.homeTeam === HULL_HAWKS_TEAM;
-    const hawks = home ? fixture.homeScore : fixture.awayScore;
-    const opponent = home ? fixture.awayScore : fixture.homeScore;
-    if (hawks > opponent) return "W";
-    if (hawks < opponent) return "L";
+    const hawksAreHome = fixture.homeTeam === HULL_HAWKS_TEAM;
+    const hawksScore = hawksAreHome ? fixture.homeScore : fixture.awayScore;
+    const opponentScore = hawksAreHome ? fixture.awayScore : fixture.homeScore;
+    if (hawksScore > opponentScore) return "W";
+    if (hawksScore < opponentScore) return "L";
     return "D";
 }
 function opponentForHawks(fixture) {
@@ -1305,86 +1652,6 @@ function opponentForHawks(fixture) {
 }
 function isHawksHome(fixture) {
     return fixture.homeTeam === HULL_HAWKS_TEAM;
-}
-function getDemoData() {
-    const fixtures = [
-        {
-            id: "demo-result",
-            date: "2026-09-05",
-            time: "13:30",
-            homeTeam: "Hull Hawks 1",
-            awayTeam: "Demo Opposition",
-            homeScore: 3,
-            awayScore: 1,
-            venue: "Demo venue",
-            status: "completed"
-        },
-        {
-            id: "demo-next",
-            date: "2026-09-19",
-            time: "13:30",
-            homeTeam: "Hull Hawks 1",
-            awayTeam: "Demo Opposition",
-            venue: "Demo venue",
-            status: "scheduled"
-        },
-        {
-            id: "demo-away",
-            date: "2026-09-26",
-            time: "12:00",
-            homeTeam: "Demo Away Team",
-            awayTeam: "Hull Hawks 1",
-            venue: "Demo venue",
-            status: "scheduled"
-        }
-    ];
-    const table = [
-        {
-            position: 1,
-            team: "Demo Leaders",
-            played: 2,
-            won: 2,
-            drawn: 0,
-            lost: 0,
-            goalDifference: 5,
-            points: 6
-        },
-        {
-            position: 2,
-            team: "Hull Hawks 1",
-            played: 2,
-            won: 1,
-            drawn: 1,
-            lost: 0,
-            goalDifference: 2,
-            points: 4
-        },
-        {
-            position: 3,
-            team: "Demo Opposition",
-            played: 2,
-            won: 1,
-            drawn: 0,
-            lost: 1,
-            goalDifference: 0,
-            points: 3
-        },
-        {
-            position: 4,
-            team: "Demo Team Four",
-            played: 2,
-            won: 0,
-            drawn: 1,
-            lost: 1,
-            goalDifference: -2,
-            points: 1
-        }
-    ];
-    return {
-        fixtures,
-        table,
-        source: "demo"
-    };
 }
 }),
 ];

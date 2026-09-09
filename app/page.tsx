@@ -63,7 +63,7 @@ export default async function Home() {
           </div>
 
           <div className="mt-3">
-            <LeagueTable rows={data.table} compact />
+            <LeagueTable rows={data.table.slice(0, 5)} compact />
           </div>
 
           <div className="mt-5 border-t border-white/10 pt-4 text-right">
