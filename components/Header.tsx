@@ -5,7 +5,6 @@ const links = [
   ["Home", "#"],
   ["Fixtures", "#fixtures"],
   ["Table", "#table"],
-  ["Team", "#team"],
   ["About", "#about"],
   ["Sponsors", "#sponsors"],
   ["Contact", "#contact"],
