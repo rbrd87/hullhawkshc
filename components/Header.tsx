@@ -31,7 +31,7 @@ export function Header() {
             <a
               key={label}
               href={href}
-              className={`sports-text relative py-3 text-[13px] font-semibold uppercase tracking-[0.13em] text-white/75 transition hover:text-white ${
+              className={`sports-text relative py-3 text-[15px] font-semibold uppercase tracking-[0.13em] text-white/75 transition hover:text-white ${
                 i === 0
                   ? "after:absolute after:inset-x-0 after:-bottom-[2px] after:h-[2px] after:bg-[var(--red)]"
                   : ""

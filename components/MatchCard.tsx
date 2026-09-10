@@ -3,6 +3,7 @@ import {
   HULL_HAWKS_TEAM,
   isHawksHome,
   opponentForHawks,
+  opponentLogoForHawks,
   resultForHawks,
 } from "@/lib/hockey";
 import type { Fixture } from "@/types/hockey";
@@ -12,22 +13,31 @@ const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   weekday: "short",
   day: "numeric",
   month: "short",
+  year: "2-digit",
 });
 
 function Team({
   name,
   label,
   hawks = false,
+  logoUrl,
 }: {
   name: string;
   label: string;
   hawks?: boolean;
+  logoUrl?: string;
 }) {
   return (
     <div className="flex min-w-0 flex-col items-center text-center">
       <div className="flex h-[76px] items-center justify-center">
         {hawks ? (
           <BrandMark compact />
+        ) : logoUrl ? (
+          <img
+            src={logoUrl}
+            alt={`${name} logo`}
+            className="h-16 w-16 object-contain"
+          />
         ) : (
           <div className="grid h-16 w-16 place-items-center rounded-full border border-white/15 text-xl font-semibold text-white/28">
             {name
@@ -42,6 +52,7 @@ function Team({
       <p className="sports-text mt-3 line-clamp-2 text-lg font-semibold uppercase tracking-[0.03em]">
         {name}
       </p>
+
       <p className="meta mt-2 text-white/35">{label}</p>
     </div>
   );
@@ -67,14 +78,18 @@ export function MatchCard({
 
   const hawksHome = isHawksHome(fixture);
   const opponent = opponentForHawks(fixture);
+  const opponentLogo = opponentLogoForHawks(fixture);
   const result = resultForHawks(fixture);
+
   const hawksScore = hawksHome ? fixture.homeScore : fixture.awayScore;
+
   const opponentScore = hawksHome ? fixture.awayScore : fixture.homeScore;
 
   return (
     <article className="panel flex min-h-[340px] flex-col rounded-xl p-6">
       <div className="flex min-h-[44px] items-start justify-between gap-5">
         <p className="section-title">{title}</p>
+
         <p className="max-w-[150px] text-right text-[10px] font-medium uppercase tracking-[.12em] text-white/42">
           YNE Peak &amp; Wold
           <br />
@@ -93,9 +108,11 @@ export function MatchCard({
           {kind === "next" ? (
             <div className="flex items-center gap-3">
               <span className="h-16 w-[2px] bg-[var(--red-dark)]" />
+
               <span className="sports-text text-2xl font-semibold uppercase">
                 VS
               </span>
+
               <span className="h-16 w-[2px] bg-[var(--red-dark)]" />
             </div>
           ) : (
@@ -106,10 +123,14 @@ export function MatchCard({
           )}
         </div>
 
-        <Team name={opponent} label={hawksHome ? "Away" : "Home"} />
+        <Team
+          name={opponent}
+          label={hawksHome ? "Away" : "Home"}
+          logoUrl={opponentLogo}
+        />
       </div>
 
-      <div className="mt-6 flex min-h-[88px] items-center border-t border-white/10 text-[15px] text-white/72">
+      <div className="mt-6 flex min-h-0 items-center border-t border-white/10 pt-5 text-[15px] text-white/72 sm:min-h-[88px] sm:pt-0">
         {kind === "next" ? (
           <div className="grid w-full items-center gap-4 sm:grid-cols-[1.4fr_0.8fr_1.3fr]">
             <span className="flex items-center gap-2 whitespace-nowrap">
@@ -117,11 +138,13 @@ export function MatchCard({
                 className="shrink-0 text-[var(--red-dark)]"
                 size={18}
               />
+
               {dateFormatter.format(new Date(`${fixture.date}T12:00:00`))}
             </span>
 
             <span className="flex items-center gap-2 whitespace-nowrap">
               <FaClock className="shrink-0 text-[var(--red-dark)]" size={18} />
+
               {fixture.time ?? "TBC"}
             </span>
 
@@ -130,6 +153,7 @@ export function MatchCard({
                 className="shrink-0 text-[var(--red-dark)]"
                 size={18}
               />
+
               {fixture.venue ?? "TBC"}
             </span>
           </div>
@@ -143,7 +167,9 @@ export function MatchCard({
 
               <span>
                 {dateFormatter.format(new Date(`${fixture.date}T12:00:00`))}
+
                 <span className="mx-3 text-white/20">|</span>
+
                 {hawksHome ? "HOME" : "AWAY"}
               </span>
             </div>

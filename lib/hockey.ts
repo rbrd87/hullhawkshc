@@ -11,6 +11,7 @@ const REVALIDATE_SECONDS = 86_400;
 
 type EnglandHockeyTeam = {
   teamName: string;
+  clubLogoUrl?: string;
 };
 
 type EnglandHockeyFixture = {
@@ -91,7 +92,8 @@ function mapStatus(fixture: EnglandHockeyFixture): MatchStatus {
     return "completed";
   }
 
-  const statusText = `${fixture.status ?? ""} ${fixture.statusDescription ?? ""}`.toLowerCase();
+  const statusText =
+    `${fixture.status ?? ""} ${fixture.statusDescription ?? ""}`.toLowerCase();
 
   if (statusText.includes("postpon")) {
     return "postponed";
@@ -112,6 +114,8 @@ function mapFixture(fixture: EnglandHockeyFixture): Fixture {
         : undefined,
     homeTeam: fixture.homeTeam.teamName,
     awayTeam: fixture.awayTeam.teamName,
+    homeLogoUrl: fixture.homeTeam.clubLogoUrl || undefined,
+    awayLogoUrl: fixture.awayTeam.clubLogoUrl || undefined,
     homeScore: completed ? fixture.homeTeamScoreAsInt : undefined,
     awayScore: completed ? fixture.awayTeamScoreAsInt : undefined,
     venue: fixture.venue || undefined,
@@ -137,15 +141,16 @@ function mapTable(rows: EnglandHockeyTableRow[]): LeagueRow[] {
 async function getFixtures(): Promise<Fixture[]> {
   const url = `${API_BASE}/teams/${TEAM_ID}/fixturesandresults`;
 
-  const response =
-    await fetchJson<FixturesAndResultsCompetition[]>(url);
+  const response = await fetchJson<FixturesAndResultsCompetition[]>(url);
 
   const league = response.find(
     (competition) => competition.competitionId === COMPETITION_ID,
   );
 
   if (!league) {
-    throw new Error("Hull Hawks league competition was not found in fixturesandresults.");
+    throw new Error(
+      "Hull Hawks league competition was not found in fixturesandresults.",
+    );
   }
 
   return league.fixtures.map(mapFixture);
@@ -161,7 +166,9 @@ async function getTable(): Promise<LeagueRow[]> {
   );
 
   if (!competition) {
-    throw new Error("Hull Hawks league table was not found in the competition group.");
+    throw new Error(
+      "Hull Hawks league table was not found in the competition group.",
+    );
   }
 
   return mapTable(competition.table);
@@ -180,11 +187,17 @@ export async function getHawksData(): Promise<HawksData> {
     tableResult.status === "fulfilled" ? tableResult.value : [];
 
   if (fixturesResult.status === "rejected") {
-    console.error("Could not load Hull Hawks fixtures/results:", fixturesResult.reason);
+    console.error(
+      "Could not load Hull Hawks fixtures/results:",
+      fixturesResult.reason,
+    );
   }
 
   if (tableResult.status === "rejected") {
-    console.error("Could not load Hull Hawks league table:", tableResult.reason);
+    console.error(
+      "Could not load Hull Hawks league table:",
+      tableResult.reason,
+    );
   }
 
   return {
@@ -226,9 +239,11 @@ export function resultForHawks(fixture: Fixture): "W" | "D" | "L" | null {
   }
 
   const hawksAreHome = fixture.homeTeam === HULL_HAWKS_TEAM;
+
   const hawksScore = hawksAreHome
     ? fixture.homeScore
     : fixture.awayScore;
+
   const opponentScore = hawksAreHome
     ? fixture.awayScore
     : fixture.homeScore;
@@ -243,6 +258,40 @@ export function opponentForHawks(fixture: Fixture) {
   return fixture.homeTeam === HULL_HAWKS_TEAM
     ? fixture.awayTeam
     : fixture.homeTeam;
+}
+
+const opponentLogos: Record<string, string> = {
+  "Driffield W2": "/images/opponents/driffield.png",
+  "Grimsby W1": "/images/opponents/grimsby.png",
+  "Horncastle W1": "/images/opponents/horncastle.png",
+  "Kingston Upon Hull W2": "/images/opponents/kuh.png",
+  "Lindum W3": "/images/opponents/lindum.png",
+  "Louth W1": "/images/opponents/louth.png",
+  "Rotherham W2": "/images/opponents/rotherham.png",
+  "Sheffield University Bankers W3": "/images/opponents/sheff-bankers.png",
+  "University of Hull W1": "/images/opponents/hull-uni.png",
+};
+
+export function opponentLogoForHawks(fixture: Fixture) {
+  const opponent = opponentForHawks(fixture);
+
+  const normalisedOpponent = opponent
+    .toLowerCase()
+    .replace(/[-–—]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const matchingTeam = Object.keys(opponentLogos).find((team) => {
+    const normalisedTeam = team
+      .toLowerCase()
+      .replace(/[-–—]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    return normalisedTeam === normalisedOpponent;
+  });
+
+  return matchingTeam ? opponentLogos[matchingTeam] : undefined;
 }
 
 export function isHawksHome(fixture: Fixture) {
