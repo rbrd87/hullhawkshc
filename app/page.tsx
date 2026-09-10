@@ -47,17 +47,17 @@ export default async function Home() {
               Hockey. Hull. Together.
             </p>
 
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4">
               <a
                 href="#fixtures"
-                className="sports-text rounded-md bg-[var(--red)] px-9 py-4 text-base font-semibold uppercase tracking-[.09em] shadow-[0_0_38px_rgba(206,62,68,.20)] transition hover:bg-[var(--red-dark)]"
+                className="sports-text flex items-center justify-center whitespace-nowrap rounded-md bg-[var(--red)] px-3 py-4 text-sm font-semibold uppercase tracking-[.06em] shadow-[0_0_38px_rgba(206,62,68,.20)] transition hover:bg-[var(--red-dark)] sm:px-9 sm:text-base sm:tracking-[.09em]"
               >
                 View fixtures &nbsp; →
               </a>
 
               <a
                 href="#about"
-                className="sports-text rounded-md border-2 border-[var(--red)] bg-transparent px-9 py-4 text-base font-semibold uppercase tracking-[.09em] transition hover:border-[var(--red-dark)] hover:bg-[var(--red-dark)]"
+                className="sports-text flex items-center justify-center whitespace-nowrap rounded-md border-2 border-[var(--red)] bg-transparent px-3 py-4 text-sm font-semibold uppercase tracking-[.06em] transition hover:border-[var(--red-dark)] hover:bg-[var(--red-dark)] sm:px-9 sm:text-base sm:tracking-[.09em]"
               >
                 About our club
               </a>
@@ -99,7 +99,7 @@ export default async function Home() {
         id="sponsors"
         className="mx-auto max-w-[1600px] px-5 py-9 md:px-8 xl:px-12"
       >
-        <div className="grid gap-8 border-b border-white/10 pb-10 md:grid-cols-[1.1fr_.9fr_1fr] md:items-center">
+        <div className="grid gap-8 border-b border-white/10 pb-10 text-center md:grid-cols-[1.1fr_.9fr_1fr] md:items-center md:text-left">
           <div>
             <p className="eyebrow text-[11px] text-white/42">Our sponsor</p>
 
@@ -124,32 +124,32 @@ export default async function Home() {
               href="https://www.instagram.com/hullhawks/"
               target="_blank"
               rel="noreferrer"
-              className="sports-text mt-4 flex items-center gap-4 text-3xl font-semibold"
+              className="sports-text mt-4 flex items-center justify-center gap-4 text-3xl font-semibold md:justify-start"
             >
               <FaInstagram size={42} />
               @hullhawks
             </a>
           </div>
 
-          <div className="md:text-right">
+          <div className="text-center md:text-right">
             <p className="sports-text text-base font-medium uppercase tracking-[.42em] text-white/70">
               Hockey. Hull. Together.
             </p>
-            <div className="mt-5 h-[3px] w-14 bg-[var(--red)] md:ml-auto" />
+            <div className="mx-auto mt-5 h-[3px] w-14 bg-[var(--red)] md:mx-0 md:ml-auto" />
           </div>
         </div>
       </section>
 
       <section
         id="fixtures"
-        className="mx-auto max-w-[1600px] px-5 py-20 md:px-8 xl:px-12"
+        className="mx-auto max-w-[1600px] px-5 py-10 md:px-8 md:py-20 xl:px-12"
       >
         <p className="eyebrow text-[var(--red)]">Season 2026/27</p>
         <h2 className="sports-text mt-3 text-6xl font-semibold uppercase tracking-[-.02em] md:text-7xl">
           Fixtures
         </h2>
 
-        <div className="mt-10">
+        <div className="mt-7 md:mt-10">
           <FixtureList fixtures={upcoming} />
         </div>
       </section>
@@ -169,25 +169,53 @@ export default async function Home() {
 
       <section
         id="about"
-        className="mx-auto max-w-[1600px] px-5 py-24 md:px-8 xl:px-12"
+        className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-24 xl:px-12"
       >
         <p className="eyebrow text-[var(--red)]">Hull Hawks HC</p>
         <h2 className="sports-text mt-3 text-6xl font-semibold uppercase tracking-[-.02em] md:text-7xl">
           More than a club.
         </h2>
 
-        <p className="mt-6 max-w-3xl text-xl leading-9 text-white/52">
-          This section is ready for the real Hull Hawks story, training details,
-          team information and anything else you want future players and
-          supporters to know.
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          Hull Hawks Hockey Club is a friendly ladies’ hockey club based in
+          Hull, established in 2013.
+        </p>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          We started our journey in the bottom division of the YNE Hockey
+          Women’s Leagues and, over the years, have worked our way up to become
+          regulars in Peak & Wold Division 1. Our highest level to date came in
+          the 2025/26 season, when we competed in Yorkshire Women’s Division 2.
+        </p>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          But Hull Hawks has always been about more than league positions. The
+          core of our team has been together since the very beginning, with many
+          players proudly pulling on the black Hawks kit throughout our 13-year
+          history. That sense of friendship and togetherness is a huge part of
+          who we are.
+        </p>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          We’re always looking to welcome new players. Whether you’ve played
+          hockey for years, are picking up a stick for the first time, or fancy
+          getting back into the game after some time away, you’ll be made to
+          feel welcome.
+        </p>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          We train every Tuesday from 7–8pm at the{" "}
+          <strong>Allam Sport Centre in Hull.</strong>
+        </p>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          <strong>New players are always welcome</strong> - come along, meet the
+          team and give hockey a go!
         </p>
       </section>
 
-      <section id="contact" className="border-t border-white/10 py-24">
+      <section id="contact" className="border-t border-white/10 py-12 md:py-24">
         <div className="mx-auto max-w-[1600px] px-5 md:px-8 xl:px-12">
           <p className="eyebrow text-[var(--red)]">Get in touch</p>
 
-          <h2 className="display-section mt-4">CONTACT THE HAWKS</h2>
+          <h2 className="sports-text mt-3 text-6xl font-semibold uppercase tracking-[-.02em] md:text-7xl">
+            CONTACT THE HAWKS
+          </h2>
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
             Want to join the team, arrange a fixture, talk sponsorship or just
@@ -220,14 +248,16 @@ export default async function Home() {
 
       <section
         id="support"
-        className="border-t border-white/10 bg-white/[0.02] py-24"
+        className="border-t border-white/10 bg-white/[0.02] py-12 md:py-24"
       >
         <div className="mx-auto max-w-[1600px] px-5 md:px-8 xl:px-12">
           <div className="grid gap-12 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
               <p className="eyebrow text-[var(--red)]">Support Hull Hawks</p>
 
-              <h2 className="display-section mt-4">BACK THE HAWKS</h2>
+              <h2 className="sports-text mt-3 text-6xl font-semibold uppercase tracking-[-.02em] md:text-7xl">
+                BACK THE HAWKS
+              </h2>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
                 We&apos;re proud to represent women&apos;s hockey in Hull and

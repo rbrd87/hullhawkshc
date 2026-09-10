@@ -6,6 +6,8 @@ export interface Fixture {
   time?: string;
   homeTeam: string;
   awayTeam: string;
+  homeLogoUrl?: string;
+  awayLogoUrl?: string;
   homeScore?: number;
   awayScore?: number;
   venue?: string;
