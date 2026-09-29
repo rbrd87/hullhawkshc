@@ -158,7 +158,7 @@ function GraphicBackground({
 
             target.src = "/images/hawks-hero.jpg";
           }}
-          className="absolute left-1/2 top-1/2 h-full w-full object-contain"
+          className="absolute left-1/2 top-1/2 h-full w-full object-cover"
           style={{
             transform: `
               translate(-50%, -50%)
@@ -182,7 +182,7 @@ function Crest({ team, logo }: { team: string; logo: string }) {
     <div className="flex min-w-0 flex-1 flex-col items-center">
       <div
         className={`flex items-center justify-center ${
-          isHawks ? "h-[16.5cqw] w-[20cqw] -my-[1cqw]" : "h-[14.5cqw] w-[14.5cqw]"
+          isHawks ? "h-[20cqw] w-[24cqw] -my-[1.2cqw]" : "h-[18cqw] w-[18cqw]"
         }`}
       >
         <img
@@ -192,7 +192,7 @@ function Crest({ team, logo }: { team: string; logo: string }) {
         />
       </div>
 
-      <p className="sports-text mt-[1.5cqw] w-[21cqw] text-center text-[3cqw] font-semibold uppercase leading-[.95] text-white">
+      <p className="sports-text mt-[1.7cqw] w-[27cqw] text-center text-[3.5cqw] font-semibold uppercase leading-[.95] text-white">
         {team}
       </p>
     </div>
@@ -224,35 +224,35 @@ function NextMatchGraphic({
       />
 
 
-      <p className="sports-text absolute left-1/2 top-[9%] w-[82%] -translate-x-1/2 text-center text-[2.7cqw] font-semibold uppercase tracking-[.08em] text-white">
+      <p className="sports-text absolute left-1/2 top-[7%] w-[88%] -translate-x-1/2 text-center text-[3cqw] font-semibold uppercase tracking-[.08em] text-white">
         {COMPETITION_NAME}
       </p>
 
       <img
         src="/images/next-script.png"
         alt="Next"
-        className="absolute left-1/2 top-[18%] z-10 w-[30%] -translate-x-1/2 object-contain"
+        className="absolute left-1/2 top-[15%] z-10 w-[34%] -translate-x-1/2 object-contain"
       />
 
-      <p className="sports-text absolute left-1/2 top-[24%] w-[78%] -translate-x-1/2 text-center text-[22cqw] font-bold uppercase leading-[.72] tracking-[-.055em] text-white">
+      <p className="sports-text absolute left-1/2 top-[21%] w-[88%] -translate-x-1/2 text-center text-[24cqw] font-bold uppercase leading-[.72] tracking-[-.055em] text-white">
         Match
       </p>
 
-      <div className="absolute left-1/2 top-[48%] flex w-[60%] -translate-x-1/2 items-center justify-between">
-        <p className="sports-text whitespace-nowrap text-[3.8cqw] font-semibold uppercase text-white">
+      <div className="absolute left-1/2 top-[46%] flex w-[70%] -translate-x-1/2 items-center justify-between">
+        <p className="sports-text whitespace-nowrap text-[4.3cqw] font-semibold uppercase text-white">
           {formatFixtureDate(fixture.date)}
         </p>
 
-        <p className="sports-text whitespace-nowrap text-[3.8cqw] font-semibold uppercase text-white">
+        <p className="sports-text whitespace-nowrap text-[4.3cqw] font-semibold uppercase text-white">
           PB {fixture.time ?? "TBC"}
         </p>
       </div>
 
-      <p className="sports-text absolute left-1/2 top-[56%] w-[72%] -translate-x-1/2 text-center text-[3.6cqw] font-semibold uppercase leading-tight text-white">
+      <p className="sports-text absolute left-1/2 top-[54%] w-[80%] -translate-x-1/2 text-center text-[4cqw] font-semibold uppercase leading-tight text-white">
         {fixture.venue ?? "Venue TBC"}
       </p>
 
-      <div className="absolute left-1/2 top-[66%] flex w-[48%] -translate-x-1/2 items-start justify-between gap-[6cqw]">
+      <div className="absolute left-1/2 top-[64%] flex w-[62%] -translate-x-1/2 items-start justify-between gap-[6cqw]">
         <Crest team={fixture.homeTeam} logo={fixture.homeLogo} />
 
         <Crest team={fixture.awayTeam} logo={fixture.awayLogo} />
@@ -302,13 +302,13 @@ function FullTimeGraphic({
       </p>
 
       {/* Full Time - deliberately much larger */}
-      <p className="sports-text absolute left-1/2 top-[17%] w-[88%] -translate-x-1/2 text-center text-[21cqw] font-bold uppercase leading-[.76] tracking-[-.055em] text-white">
+      <p className="sports-text absolute left-1/2 top-[15%] w-[94%] -translate-x-1/2 text-center text-[23cqw] font-bold uppercase leading-[.76] tracking-[-.055em] text-white">
         Full Time
       </p>
 
       {/* Score - lifted away from the badges */}
-      <div className="sports-text absolute left-1/2 top-[38%] flex -translate-x-1/2 items-center justify-center">
-        <span className="min-w-[17cqw] text-center text-[19cqw] font-bold leading-none tracking-[-.06em] text-white">
+      <div className="sports-text absolute left-1/2 top-[36%] flex -translate-x-1/2 items-center justify-center">
+        <span className="min-w-[17cqw] text-center text-[21cqw] font-bold leading-none tracking-[-.06em] text-white">
           {displayHomeScore}
         </span>
 
@@ -316,37 +316,37 @@ function FullTimeGraphic({
           —
         </span>
 
-        <span className="min-w-[17cqw] text-center text-[19cqw] font-bold leading-none tracking-[-.06em] text-white">
+        <span className="min-w-[17cqw] text-center text-[21cqw] font-bold leading-none tracking-[-.06em] text-white">
           {displayAwayScore}
         </span>
       </div>
 
       {/* Result headline */}
       {headline && (
-        <div className="absolute left-1/2 top-[53%] w-[72%] -translate-x-1/2 text-center">
+        <div className="absolute left-1/2 top-[51%] w-[80%] -translate-x-1/2 text-center">
           <div className="mx-auto mb-[1.8cqw] h-[0.35cqw] w-[9cqw] bg-[var(--red)]" />
 
-          <p className="sports-text text-[3.8cqw] font-semibold uppercase tracking-[.07em] text-white">
+          <p className="sports-text text-[4.2cqw] font-semibold uppercase tracking-[.07em] text-white">
             {headline}
           </p>
         </div>
       )}
 
       {/* Teams - same position as Next Match */}
-      <div className="absolute left-1/2 top-[66%] flex w-[48%] -translate-x-1/2 items-start justify-between gap-[6cqw]">
+      <div className="absolute left-1/2 top-[64%] flex w-[62%] -translate-x-1/2 items-start justify-between gap-[6cqw]">
         <Crest team={fixture.homeTeam} logo={fixture.homeLogo} />
 
         <Crest team={fixture.awayTeam} logo={fixture.awayLogo} />
       </div>
 
       {/* Date and venue - brought upwards */}
-      <div className="absolute left-1/2 top-[84%] w-[72%] -translate-x-1/2 text-center">
-        <p className="sports-text text-[2.5cqw] font-medium uppercase tracking-[.06em] text-white/65">
+      <div className="absolute left-1/2 top-[86%] w-[80%] -translate-x-1/2 text-center">
+        <p className="sports-text text-[3cqw] font-medium uppercase tracking-[.06em] text-white/65">
           {formatFixtureDate(fixture.date)}
         </p>
 
         {fixture.venue && (
-          <p className="sports-text mt-[0.8cqw] text-[2.1cqw] font-medium uppercase tracking-[.05em] text-white/40">
+          <p className="sports-text mt-[0.8cqw] text-[2.5cqw] font-medium uppercase tracking-[.05em] text-white/40">
             {fixture.venue}
           </p>
         )}
