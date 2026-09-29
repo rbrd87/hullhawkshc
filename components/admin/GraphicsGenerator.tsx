@@ -175,19 +175,6 @@ function GraphicBackground({
   );
 }
 
-function SafeAreaOverlay() {
-  return (
-    <div
-      data-export-ignore="true"
-      className="pointer-events-none absolute inset-[7%] z-50 border border-dashed border-red-400/80"
-    >
-      <span className="absolute -top-6 right-0 rounded bg-black/75 px-2 py-1 font-sans text-[10px] uppercase tracking-[.12em] text-red-300">
-        Safe area
-      </span>
-    </div>
-  );
-}
-
 function Crest({ team, logo }: { team: string; logo: string }) {
   const isHawks = team === "Hull Hawks 1";
 
@@ -195,7 +182,7 @@ function Crest({ team, logo }: { team: string; logo: string }) {
     <div className="flex min-w-0 flex-1 flex-col items-center">
       <div
         className={`flex items-center justify-center ${
-          isHawks ? "h-[15cqw] w-[18cqw] -my-[1cqw]" : "h-[13cqw] w-[13cqw]"
+          isHawks ? "h-[16.5cqw] w-[20cqw] -my-[1cqw]" : "h-[14.5cqw] w-[14.5cqw]"
         }`}
       >
         <img
@@ -205,7 +192,7 @@ function Crest({ team, logo }: { team: string; logo: string }) {
         />
       </div>
 
-      <p className="sports-text mt-[1.5cqw] w-[21cqw] text-center text-[2.8cqw] font-semibold uppercase leading-[.95] text-white">
+      <p className="sports-text mt-[1.5cqw] w-[21cqw] text-center text-[3cqw] font-semibold uppercase leading-[.95] text-white">
         {team}
       </p>
     </div>
@@ -214,13 +201,11 @@ function Crest({ team, logo }: { team: string; logo: string }) {
 
 function NextMatchGraphic({
   fixture,
-  showSafeArea,
   backgroundImage,
   backgroundPosition,
   backgroundZoom,
 }: {
   fixture: GraphicsFixture;
-  showSafeArea: boolean;
   backgroundImage: string;
   backgroundPosition: number;
   backgroundZoom: number;
@@ -238,33 +223,32 @@ function NextMatchGraphic({
         zoom={backgroundZoom}
       />
 
-      {showSafeArea && <SafeAreaOverlay />}
 
-      <p className="sports-text absolute left-1/2 top-[9%] w-[82%] -translate-x-1/2 text-center text-[2.5cqw] font-semibold uppercase tracking-[.08em] text-white">
+      <p className="sports-text absolute left-1/2 top-[9%] w-[82%] -translate-x-1/2 text-center text-[2.7cqw] font-semibold uppercase tracking-[.08em] text-white">
         {COMPETITION_NAME}
       </p>
 
       <img
         src="/images/next-script.png"
         alt="Next"
-        className="absolute left-1/2 top-[18%] z-10 w-[27%] -translate-x-1/2 object-contain"
+        className="absolute left-1/2 top-[18%] z-10 w-[30%] -translate-x-1/2 object-contain"
       />
 
-      <p className="sports-text absolute left-1/2 top-[24%] w-[78%] -translate-x-1/2 text-center text-[21cqw] font-bold uppercase leading-[.72] tracking-[-.055em] text-white">
+      <p className="sports-text absolute left-1/2 top-[24%] w-[78%] -translate-x-1/2 text-center text-[22cqw] font-bold uppercase leading-[.72] tracking-[-.055em] text-white">
         Match
       </p>
 
       <div className="absolute left-1/2 top-[48%] flex w-[60%] -translate-x-1/2 items-center justify-between">
-        <p className="sports-text whitespace-nowrap text-[3.5cqw] font-semibold uppercase text-white">
+        <p className="sports-text whitespace-nowrap text-[3.8cqw] font-semibold uppercase text-white">
           {formatFixtureDate(fixture.date)}
         </p>
 
-        <p className="sports-text whitespace-nowrap text-[3.5cqw] font-semibold uppercase text-white">
+        <p className="sports-text whitespace-nowrap text-[3.8cqw] font-semibold uppercase text-white">
           PB {fixture.time ?? "TBC"}
         </p>
       </div>
 
-      <p className="sports-text absolute left-1/2 top-[56%] w-[72%] -translate-x-1/2 text-center text-[3.3cqw] font-semibold uppercase leading-tight text-white">
+      <p className="sports-text absolute left-1/2 top-[56%] w-[72%] -translate-x-1/2 text-center text-[3.6cqw] font-semibold uppercase leading-tight text-white">
         {fixture.venue ?? "Venue TBC"}
       </p>
 
@@ -282,7 +266,6 @@ function FullTimeGraphic({
   homeScore,
   awayScore,
   headline,
-  showSafeArea,
   backgroundImage,
   backgroundPosition,
   backgroundZoom,
@@ -291,7 +274,6 @@ function FullTimeGraphic({
   homeScore: string;
   awayScore: string;
   headline: string;
-  showSafeArea: boolean;
   backgroundImage: string;
   backgroundPosition: number;
   backgroundZoom: number;
@@ -313,29 +295,28 @@ function FullTimeGraphic({
         zoom={backgroundZoom}
       />
 
-      {showSafeArea && <SafeAreaOverlay />}
 
       {/* Competition */}
-      <p className="sports-text absolute left-1/2 top-[9%] w-[82%] -translate-x-1/2 text-center text-[2.5cqw] font-semibold uppercase tracking-[.08em] text-white">
+      <p className="sports-text absolute left-1/2 top-[9%] w-[82%] -translate-x-1/2 text-center text-[2.7cqw] font-semibold uppercase tracking-[.08em] text-white">
         {COMPETITION_NAME}
       </p>
 
       {/* Full Time - deliberately much larger */}
-      <p className="sports-text absolute left-1/2 top-[17%] w-[88%] -translate-x-1/2 text-center text-[20cqw] font-bold uppercase leading-[.76] tracking-[-.055em] text-white">
+      <p className="sports-text absolute left-1/2 top-[17%] w-[88%] -translate-x-1/2 text-center text-[21cqw] font-bold uppercase leading-[.76] tracking-[-.055em] text-white">
         Full Time
       </p>
 
       {/* Score - lifted away from the badges */}
       <div className="sports-text absolute left-1/2 top-[38%] flex -translate-x-1/2 items-center justify-center">
-        <span className="min-w-[17cqw] text-center text-[18cqw] font-bold leading-none tracking-[-.06em] text-white">
+        <span className="min-w-[17cqw] text-center text-[19cqw] font-bold leading-none tracking-[-.06em] text-white">
           {displayHomeScore}
         </span>
 
-        <span className="mx-[3cqw] text-[4.5cqw] font-light text-white/35">
+        <span className="mx-[3cqw] text-[4.8cqw] font-light text-white/35">
           —
         </span>
 
-        <span className="min-w-[17cqw] text-center text-[18cqw] font-bold leading-none tracking-[-.06em] text-white">
+        <span className="min-w-[17cqw] text-center text-[19cqw] font-bold leading-none tracking-[-.06em] text-white">
           {displayAwayScore}
         </span>
       </div>
@@ -345,7 +326,7 @@ function FullTimeGraphic({
         <div className="absolute left-1/2 top-[53%] w-[72%] -translate-x-1/2 text-center">
           <div className="mx-auto mb-[1.8cqw] h-[0.35cqw] w-[9cqw] bg-[var(--red)]" />
 
-          <p className="sports-text text-[3.5cqw] font-semibold uppercase tracking-[.07em] text-white">
+          <p className="sports-text text-[3.8cqw] font-semibold uppercase tracking-[.07em] text-white">
             {headline}
           </p>
         </div>
@@ -408,7 +389,6 @@ export default function GraphicsGenerator({ fixtures }: Props) {
 
   const [fixtureId, setFixtureId] = useState(initialFixture?.id ?? "");
 
-  const [showSafeArea, setShowSafeArea] = useState(true);
 
   const [backgroundMode, setBackgroundMode] =
     useState<BackgroundMode>("automatic");
@@ -593,9 +573,9 @@ export default function GraphicsGenerator({ fixtures }: Props) {
         cacheBust: true,
         pixelRatio: 1,
         width: 1080,
-        height: 1350,
+        height: 1440,
         canvasWidth: 1080,
-        canvasHeight: 1350,
+        canvasHeight: 1440,
         backgroundColor: "#000000",
       });
 
@@ -772,33 +752,6 @@ export default function GraphicsGenerator({ fixtures }: Props) {
                 </>
               )}
 
-              <div className="mt-6">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="meta text-white/50">Safe Area</p>
-
-                    <p className="mt-1 text-xs leading-5 text-white/35">
-                      Show Instagram-safe content boundaries.
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowSafeArea((current) => !current)}
-                    className={`relative h-7 w-12 shrink-0 rounded-full transition ${
-                      showSafeArea ? "bg-[var(--red)]" : "bg-white/15"
-                    }`}
-                    aria-pressed={showSafeArea}
-                  >
-                    <span
-                      className={`absolute top-1 h-5 w-5 rounded-full bg-white transition ${
-                        showSafeArea ? "left-6" : "left-1"
-                      }`}
-                    />
-                  </button>
-                </div>
-              </div>
-
               <div className="mt-6 border-t border-white/10 pt-6">
                 <p className="meta text-white/50">Background</p>
 
@@ -947,15 +900,14 @@ export default function GraphicsGenerator({ fixtures }: Props) {
             <div className="mb-3 flex items-center justify-between">
               <p className="meta text-white/45">Live Preview</p>
 
-              <p className="meta text-white/25">1080 × 1350</p>
+              <p className="meta text-white/25">1080 × 1440</p>
             </div>
 
             {/* Visible responsive preview */}
-            <div className="mx-auto aspect-[4/5] w-full max-w-[700px]">
+            <div className="mx-auto aspect-[3/4] w-full max-w-[700px]">
               {graphicType === "next-match" ? (
                 <NextMatchGraphic
                   fixture={selectedFixture}
-                  showSafeArea={showSafeArea}
                   backgroundImage={selectedBackground.image}
                   backgroundPosition={backgroundPosition}
                   backgroundZoom={backgroundZoom}
@@ -966,7 +918,6 @@ export default function GraphicsGenerator({ fixtures }: Props) {
                   homeScore={homeScore}
                   awayScore={awayScore}
                   headline={headline}
-                  showSafeArea={showSafeArea}
                   backgroundImage={selectedBackground.image}
                   backgroundPosition={backgroundPosition}
                   backgroundZoom={backgroundZoom}
@@ -985,13 +936,12 @@ export default function GraphicsGenerator({ fixtures }: Props) {
             ref={artworkRef}
             style={{
               width: "1080px",
-              height: "1350px",
+              height: "1440px",
             }}
           >
             {graphicType === "next-match" ? (
               <NextMatchGraphic
                 fixture={selectedFixture}
-                showSafeArea={false}
                 backgroundImage={selectedBackground.image}
                 backgroundPosition={backgroundPosition}
                 backgroundZoom={backgroundZoom}
@@ -1002,7 +952,6 @@ export default function GraphicsGenerator({ fixtures }: Props) {
                 homeScore={homeScore}
                 awayScore={awayScore}
                 headline={headline}
-                showSafeArea={false}
                 backgroundImage={selectedBackground.image}
                 backgroundPosition={backgroundPosition}
                 backgroundZoom={backgroundZoom}
