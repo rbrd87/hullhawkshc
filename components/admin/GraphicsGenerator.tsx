@@ -324,7 +324,7 @@ function FullTimeGraphic({
       {/* Result headline */}
       {headline && (
         <div className="absolute left-1/2 top-[51%] w-[86%] -translate-x-1/2 text-center">
-          <div className="mx-auto mb-[1.8cqw] h-[0.35cqw] w-[9cqw] bg-[var(--red)]" />
+          <div className="mx-auto mb-[3cqw] h-[0.35cqw] w-[9cqw] bg-[var(--red)]" />
 
           <p className="sports-text text-[5cqw] font-semibold uppercase tracking-[.07em] text-white">
             {headline}
