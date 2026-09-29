@@ -302,7 +302,7 @@ function FullTimeGraphic({
       </p>
 
       {/* Full Time - deliberately much larger */}
-      <p className="sports-text absolute left-1/2 top-[14%] w-[96%] -translate-x-1/2 text-center text-[26cqw] font-bold uppercase leading-[.76] tracking-[0em] text-white">
+      <p className="sports-text absolute left-1/2 top-[14%] w-[92%] -translate-x-1/2 text-center text-[23.5cqw] font-bold uppercase leading-[.78] tracking-[.015em] text-white">
         Full Time
       </p>
 
@@ -340,7 +340,7 @@ function FullTimeGraphic({
       </div>
 
       {/* Date and venue - brought upwards */}
-      <div className="absolute left-1/2 top-[93%] w-[86%] -translate-x-1/2 text-center">
+      <div className="absolute left-1/2 top-[89%] w-[86%] -translate-x-1/2 text-center">
         <p className="sports-text text-[3.6cqw] font-medium uppercase tracking-[.06em] text-white/65">
           {formatFixtureDate(fixture.date)}
         </p>
