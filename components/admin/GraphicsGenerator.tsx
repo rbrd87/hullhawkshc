@@ -297,17 +297,17 @@ function FullTimeGraphic({
 
 
       {/* Competition */}
-      <p className="sports-text absolute left-1/2 top-[9%] w-[82%] -translate-x-1/2 text-center text-[2.7cqw] font-semibold uppercase tracking-[.08em] text-white">
+      <p className="sports-text absolute left-1/2 top-[5%] w-[82%] -translate-x-1/2 text-center text-[2.7cqw] font-semibold uppercase tracking-[.08em] text-white">
         {COMPETITION_NAME}
       </p>
 
       {/* Full Time - deliberately much larger */}
-      <p className="sports-text absolute left-1/2 top-[14%] w-[92%] -translate-x-1/2 text-center text-[23.5cqw] font-bold uppercase leading-[.78] tracking-[.015em] text-white">
+      <p className="sports-text absolute left-1/2 top-[10%] w-[92%] -translate-x-1/2 text-center text-[23.5cqw] font-bold uppercase leading-[.78] tracking-[.015em] text-white">
         Full Time
       </p>
 
       {/* Score - lifted away from the badges */}
-      <div className="sports-text absolute left-1/2 top-[35%] flex -translate-x-1/2 items-center justify-center">
+      <div className="sports-text absolute left-1/2 top-[31%] flex -translate-x-1/2 items-center justify-center">
         <span className="min-w-[17cqw] text-center text-[24cqw] font-bold leading-none tracking-[0em] text-white">
           {displayHomeScore}
         </span>
@@ -323,7 +323,7 @@ function FullTimeGraphic({
 
       {/* Result headline */}
       {headline && (
-        <div className="absolute left-1/2 top-[56%] w-[86%] -translate-x-1/2 text-center">
+        <div className="absolute left-1/2 top-[52%] w-[86%] -translate-x-1/2 text-center">
           <div className="mx-auto mb-[3cqw] h-[0.35cqw] w-[9cqw] bg-[var(--red)]" />
 
           <p className="sports-text text-[5cqw] font-semibold uppercase tracking-[.07em] text-white">
@@ -333,7 +333,7 @@ function FullTimeGraphic({
       )}
 
       {/* Teams - same position as Next Match */}
-      <div className="absolute left-1/2 top-[67%] flex w-[76%] -translate-x-1/2 items-start justify-between gap-[7cqw]">
+      <div className="absolute left-1/2 top-[63%] flex w-[76%] -translate-x-1/2 items-start justify-between gap-[7cqw]">
         <Crest team={fixture.homeTeam} logo={fixture.homeLogo} />
 
         <Crest team={fixture.awayTeam} logo={fixture.awayLogo} />
