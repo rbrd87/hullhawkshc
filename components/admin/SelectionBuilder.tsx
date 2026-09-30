@@ -74,7 +74,7 @@ function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
         ) : (
           <div className="relative pt-7">
             <div aria-hidden="true" className="absolute left-1/2 top-0 flex h-8 w-14 -translate-x-1/2 items-center justify-center rounded-t-lg border border-b-0 border-white/70 bg-black/80 text-base font-bold text-white">↕</div>
-            <select value={player} onPointerDown={(e)=>e.stopPropagation()} onChange={(e)=>onAssign?.(id,e.target.value)} className={`sports-text min-h-11 w-full rounded-full border-2 px-2 text-center text-[11px] font-bold uppercase outline-none ${player?"border-white bg-[var(--red)] text-white":"border-white/80 bg-black/75 text-white"}`}>
+            <select value={player} onPointerDown={(e)=>e.stopPropagation()} onChange={(e)=>onAssign?.(id,e.target.value)} className={`sports-text min-h-11 w-auto min-w-[112px] max-w-[170px] rounded-full border-2 px-4 text-center text-[11px] font-bold uppercase outline-none ${player?"border-white bg-[var(--red)] text-white":"border-white/80 bg-black/75 text-white"}`}>
             <option value="">{i===0?"GK":"POSITION"}</option>
             {selection.players.map((name)=><option key={name} value={name} disabled={assigned.has(name)&&player!==name}>{name}</option>)}
             </select>
@@ -131,7 +131,7 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
 
     <div className="pointer-events-none fixed left-[-99999px] top-0"><div ref={exportRef} className="box-border flex h-[1440px] w-[1080px] flex-col overflow-hidden bg-[#0d0d0e] px-[64px] py-[54px] text-white">
       <div className="flex items-center gap-6"><img src="/images/hull-hawks-logo.png" alt="" className="h-28 w-28 object-contain"/><div><p className="sports-text text-4xl font-bold uppercase text-[var(--red)]">Hull Hawks HC</p><h2 className="sports-text text-7xl font-bold uppercase">Team Selection</h2></div></div>
-      <div className="mt-8 border-y border-white/20 py-5"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>}</div>
+      <div className="mt-6 border-y border-white/20 py-4"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>}</div>
       <div className="mx-auto mt-7 w-[520px] shrink-0"><HockeyPitch selection={selection} exportMode/></div>
       <div className="mt-6 shrink-0"><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-3 flex flex-wrap gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-full border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-2xl text-white/40">None selected</span>}</div></div>
     </div></div>
