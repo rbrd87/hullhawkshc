@@ -5,6 +5,7 @@ import {
   opponentForHawks,
   opponentLogoForHawks,
   resultForHawks,
+  displayTeamName,
 } from "@/lib/hockey";
 import type { Fixture } from "@/types/hockey";
 import { FaCalendarDays, FaClock, FaLocationDot } from "react-icons/fa6";
@@ -50,7 +51,7 @@ function Team({
       </div>
 
       <p className="sports-text mt-3 line-clamp-2 text-lg font-semibold uppercase tracking-[0.03em]">
-        {name}
+        {displayTeamName(name)}
       </p>
 
       <p className="meta mt-2 text-white/35">{label}</p>

@@ -2,6 +2,10 @@ import type { Fixture, HawksData, LeagueRow, MatchStatus } from "@/types/hockey"
 
 export const HULL_HAWKS_TEAM = "Hull Hawks 1";
 
+export function displayTeamName(name: string) {
+  return name.replace(/\s+W(\d+)\b/g, " $1");
+}
+
 const TEAM_ID = "c4895023-e50e-43c2-b13c-6489df4e23d5";
 const COMPETITION_ID = "5161cc52-3c80-4dc8-b5e5-b72d3bd9f11e";
 const COMPETITION_GROUP_ID = "9dfdae0a-8e6f-4131-a840-1fff2d899ce9";
