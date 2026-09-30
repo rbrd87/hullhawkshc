@@ -68,9 +68,9 @@ function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
     {SLOT_IDS.map((id,i)=>{
       const p=selection.positions[id]??DEFAULT_POSITIONS[id];
       const player=selection.starters[id]??"";
-      return <div key={id} onPointerDown={(e)=>pointerDown(e,id)} className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 ${exportMode?"w-[31%]":"w-[34%] select-none sm:w-[29%]"}`} style={{left:`${p.x}%`,top:`${p.y}%`,touchAction:exportMode?"auto":"none"}}>
+      return <div key={id} onPointerDown={(e)=>pointerDown(e,id)} className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 ${exportMode?"w-auto":"w-[25%] min-w-[92px] max-w-[150px] select-none sm:w-[20%]"}`} style={{left:`${p.x}%`,top:`${p.y}%`,touchAction:exportMode?"auto":"none"}}>
         {exportMode ? (
-          player && <div className="sports-text rounded-full border-2 border-white bg-[var(--red)] px-2 py-2 text-center text-sm font-bold uppercase text-white shadow-lg">{player}</div>
+          player && <div className="sports-text whitespace-nowrap rounded-full border-2 border-white bg-[var(--red)] px-5 py-2 text-center text-sm font-bold uppercase text-white shadow-lg">{player}</div>
         ) : (
           <div className="relative pt-7">
             <div aria-hidden="true" className="absolute left-1/2 top-0 flex h-8 w-14 -translate-x-1/2 items-center justify-center rounded-t-lg border border-b-0 border-white/70 bg-black/80 text-base font-bold text-white">↕</div>
@@ -104,7 +104,7 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
   function removePlayer(player:string){setSelection({...selection,players:selection.players.filter(p=>p!==player),starters:Object.fromEntries(Object.entries(selection.starters).filter(([,p])=>p!==player)),bench:selection.bench.filter(p=>p!==player)});setSaved(false)}
   function save(){const all=JSON.parse(localStorage.getItem(STORAGE_KEY)??"{}") as Record<string,SavedSelection>;all[fixtureId]=selection;localStorage.setItem(STORAGE_KEY,JSON.stringify(all));setSaved(true)}
   function resetPositions(){setSelection({...selection,positions:{...DEFAULT_POSITIONS}});setSaved(false)}
-  async function download(){if(!exportRef.current)return;const data=await toPng(exportRef.current,{pixelRatio:1,canvasWidth:1080,canvasHeight:1440,backgroundColor:"#0d0d0e"});const a=document.createElement("a");a.download=`hull-hawks-selection-${fixture?.date??"squad"}.png`;a.href=data;a.click()}
+  async function download(){if(!exportRef.current)return;const data=await toPng(exportRef.current,{pixelRatio:1,width:1080,height:1440,backgroundColor:"#0d0d0e"});const a=document.createElement("a");a.download=`hull-hawks-selection-${fixture?.date??"squad"}.png`;a.href=data;a.click()}
 
   return <main className="min-h-screen bg-[var(--black)] text-white"><div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-12">
     <header className="mb-7 border-b border-white/15 pb-6"><Link href="/admin" className="sports-text text-xs font-bold uppercase tracking-[.12em] text-white/60">← Admin</Link>
@@ -129,11 +129,11 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
       </aside>
     </div>
 
-    <div className="pointer-events-none fixed left-[-99999px] top-0"><div ref={exportRef} className="flex h-[1440px] w-[1080px] flex-col bg-[#0d0d0e] p-[70px] text-white">
+    <div className="pointer-events-none fixed left-[-99999px] top-0"><div ref={exportRef} className="box-border flex h-[1440px] w-[1080px] flex-col overflow-hidden bg-[#0d0d0e] px-[64px] py-[54px] text-white">
       <div className="flex items-center gap-6"><img src="/images/hull-hawks-logo.png" alt="" className="h-28 w-28 object-contain"/><div><p className="sports-text text-4xl font-bold uppercase text-[var(--red)]">Hull Hawks HC</p><h2 className="sports-text text-7xl font-bold uppercase">Team Selection</h2></div></div>
       <div className="mt-8 border-y border-white/20 py-5"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>}</div>
-      <div className="mx-auto mt-8 w-[570px]"><HockeyPitch selection={selection} exportMode/></div>
-      <div className="mt-8"><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-3 flex flex-wrap gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-full border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-2xl text-white/40">None selected</span>}</div></div>
+      <div className="mx-auto mt-7 w-[520px] shrink-0"><HockeyPitch selection={selection} exportMode/></div>
+      <div className="mt-6 shrink-0"><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-3 flex flex-wrap gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-full border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-2xl text-white/40">None selected</span>}</div></div>
     </div></div>
   </div></main>;
 }
