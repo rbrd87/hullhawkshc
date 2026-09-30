@@ -101,7 +101,7 @@ export function MatchCard({
         </p>
       </div>
 
-      <div className="mt-6 grid flex-1 grid-cols-[1fr_96px_1fr] items-center gap-3">
+      <div className="mt-6 grid flex-1 grid-cols-[minmax(0,1fr)_110px_minmax(0,1fr)] items-center gap-2 sm:grid-cols-[1fr_96px_1fr] sm:gap-3">
         <Team
           name={homeTeam}
           label="Home"
@@ -121,7 +121,7 @@ export function MatchCard({
               <span className="h-16 w-[2px] bg-[var(--red-dark)]" />
             </div>
           ) : (
-            <div className="sports-text rounded-md bg-[var(--red)] px-5 py-4 text-center text-4xl font-semibold leading-none shadow-[0_12px_30px_rgba(206,62,68,.18)]">
+            <div className="sports-text flex min-w-[104px] items-center justify-center whitespace-nowrap rounded-md bg-[var(--red)] px-3 py-4 text-center text-3xl font-semibold leading-none shadow-[0_12px_30px_rgba(206,62,68,.18)] sm:min-w-0 sm:px-5 sm:text-4xl">
               {fixture.homeScore ?? "-"} <span className="text-white/55">-</span>{" "}
               {fixture.awayScore ?? "-"}
             </div>
