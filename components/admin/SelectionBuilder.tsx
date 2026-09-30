@@ -105,9 +105,16 @@ export default function SelectionBuilder({ fixtures }: { fixtures: Fixture[] }) 
   }
 
   function toggleBench(player: string) {
-    const bench = selection.bench.includes(player)
+    const isOnBench = selection.bench.includes(player);
+
+    if (!isOnBench && (selection.bench.length >= 5 || selectedCount >= 16)) {
+      return;
+    }
+
+    const bench = isOnBench
       ? selection.bench.filter((p) => p !== player)
       : [...selection.bench, player];
+
     setSelection({ ...selection, bench });
     setSaved(false);
   }
@@ -209,7 +216,7 @@ export default function SelectionBuilder({ fixtures }: { fixtures: Fixture[] }) 
             <div className="mt-4 rounded-lg border border-white/10 bg-white/[.025] p-4">
               <div className="flex items-center justify-between">
                 <p className="sports-text font-semibold uppercase">Bench</p>
-                <span className="text-xs text-white/35">{selection.bench.length} selected</span>
+                <span className="text-xs text-white/35">{selection.bench.length}/5 selected</span>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {selection.bench.length === 0 ? <p className="text-sm text-white/30">No substitutes selected yet.</p> : selection.bench.map((player) => (
@@ -225,7 +232,7 @@ export default function SelectionBuilder({ fixtures }: { fixtures: Fixture[] }) 
                 <p className="meta text-white/35">Players</p>
                 <h2 className="sports-text mt-1 text-2xl font-bold uppercase">Squad</h2>
               </div>
-              <span className="sports-text text-sm text-white/35">{selectedCount} matchday</span>
+              <span className="sports-text text-sm text-white/35">{selectedCount}/16 matchday</span>
             </div>
 
             <div className="mt-5 flex gap-2">
@@ -252,7 +259,7 @@ export default function SelectionBuilder({ fixtures }: { fixtures: Fixture[] }) 
               })}
             </div>
 
-            <p className="mt-4 text-xs leading-5 text-white/25">For this first version, selections are saved only in this browser on this device.</p>
+            <p className="mt-4 text-xs leading-5 text-white/25">Maximum matchday squad: 16 players — 11 on the pitch and up to 5 on the bench. For this first version, selections are saved only in this browser on this device.</p>
           </aside>
         </div>
       </div>
