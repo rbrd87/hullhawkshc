@@ -70,7 +70,7 @@ function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
       const player=selection.starters[id]??"";
       return <div key={id} onPointerDown={(e)=>pointerDown(e,id)} className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 ${exportMode?"w-auto":"w-[25%] min-w-[92px] max-w-[150px] select-none sm:w-[20%]"}`} style={{left:`${p.x}%`,top:`${p.y}%`,touchAction:exportMode?"auto":"none"}}>
         {exportMode ? (
-          player && <div className="sports-text whitespace-nowrap rounded-full border-2 border-white bg-[var(--red)] px-5 py-2 text-center text-sm font-bold uppercase text-white shadow-lg">{player}</div>
+          player && <div className="sports-text whitespace-nowrap rounded-full border-[3px] border-white bg-[var(--red)] px-7 py-3 text-center text-[22px] font-bold uppercase leading-none text-white shadow-lg">{player}</div>
         ) : (
           <div className="relative pt-7">
             <div aria-hidden="true" className="absolute left-1/2 top-0 flex h-8 w-14 -translate-x-1/2 items-center justify-center rounded-t-lg border border-b-0 border-white/70 bg-black/80 text-base font-bold text-white">↕</div>
