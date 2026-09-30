@@ -81,9 +81,13 @@ export function MatchCard({
   const opponentLogo = opponentLogoForHawks(fixture);
   const result = resultForHawks(fixture);
 
-  const hawksScore = hawksHome ? fixture.homeScore : fixture.awayScore;
+  const homeTeam = fixture.homeTeam;
+  const awayTeam = fixture.awayTeam;
+  const homeIsHawks = homeTeam === HULL_HAWKS_TEAM;
+  const awayIsHawks = awayTeam === HULL_HAWKS_TEAM;
 
-  const opponentScore = hawksHome ? fixture.awayScore : fixture.homeScore;
+  const homeLogo = homeIsHawks ? undefined : opponentLogo;
+  const awayLogo = awayIsHawks ? undefined : opponentLogo;
 
   return (
     <article className="panel flex min-h-[340px] flex-col rounded-xl p-6">
@@ -97,11 +101,12 @@ export function MatchCard({
         </p>
       </div>
 
-      <div className="mt-6 grid flex-1 grid-cols-[1fr_96px_1fr] items-center gap-3">
+      <div className="mt-6 grid flex-1 grid-cols-[minmax(0,1fr)_110px_minmax(0,1fr)] items-center gap-2 sm:grid-cols-[1fr_96px_1fr] sm:gap-3">
         <Team
-          name={HULL_HAWKS_TEAM}
-          label={hawksHome ? "Home" : "Away"}
-          hawks
+          name={homeTeam}
+          label="Home"
+          hawks={homeIsHawks}
+          logoUrl={homeLogo}
         />
 
         <div className="flex h-full min-h-[142px] items-center justify-center">
@@ -116,17 +121,18 @@ export function MatchCard({
               <span className="h-16 w-[2px] bg-[var(--red-dark)]" />
             </div>
           ) : (
-            <div className="sports-text rounded-md bg-[var(--red)] px-5 py-4 text-center text-4xl font-semibold leading-none shadow-[0_12px_30px_rgba(206,62,68,.18)]">
-              {hawksScore ?? "-"} <span className="text-white/55">-</span>{" "}
-              {opponentScore ?? "-"}
+            <div className="sports-text flex min-w-[104px] items-center justify-center whitespace-nowrap rounded-md bg-[var(--red)] px-3 py-4 text-center text-3xl font-semibold leading-none shadow-[0_12px_30px_rgba(206,62,68,.18)] sm:min-w-0 sm:px-5 sm:text-4xl">
+              {fixture.homeScore ?? "-"} <span className="text-white/55">-</span>{" "}
+              {fixture.awayScore ?? "-"}
             </div>
           )}
         </div>
 
         <Team
-          name={opponent}
-          label={hawksHome ? "Away" : "Home"}
-          logoUrl={opponentLogo}
+          name={awayTeam}
+          label="Away"
+          hawks={awayIsHawks}
+          logoUrl={awayLogo}
         />
       </div>
 
