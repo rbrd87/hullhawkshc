@@ -30,7 +30,7 @@ function emptySelection(): SavedSelection {
 function opponent(f: Fixture) { return f.homeTeam === HULL_HAWKS_TEAM ? f.awayTeam : f.homeTeam; }
 function fixtureLabel(f: Fixture) {
   const date=new Intl.DateTimeFormat("en-GB",{weekday:"short",day:"numeric",month:"short"}).format(new Date(`${f.date}T12:00:00`));
-  return `${date} · ${f.homeTeam===HULL_HAWKS_TEAM?"vs":"at"} ${displayTeamName(opponent(f))}`;
+  return `${date} · vs ${displayTeamName(opponent(f))}`;
 }
 
 function HockeyPitch({ selection, onMove, onAssign, exportMode=false, homeMatch=false }:{
