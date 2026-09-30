@@ -12,6 +12,7 @@ type SavedSelection = {
   starters: Record<string, string>;
   positions: Record<string, Position>;
   bench: string[];
+  notes: string;
 };
 
 const STORAGE_KEY = "hawks-matchday-selections-v2";
@@ -23,7 +24,7 @@ const DEFAULT_POSITIONS: Record<string, Position> = {
 };
 
 function emptySelection(): SavedSelection {
-  return { players: [], starters: {}, positions: { ...DEFAULT_POSITIONS }, bench: [] };
+  return { players: [], starters: {}, positions: { ...DEFAULT_POSITIONS }, bench: [], notes: "" };
 }
 function opponent(f: Fixture) { return f.homeTeam === HULL_HAWKS_TEAM ? f.awayTeam : f.homeTeam; }
 function fixtureLabel(f: Fixture) {
@@ -31,8 +32,8 @@ function fixtureLabel(f: Fixture) {
   return `${date} · ${f.homeTeam===HULL_HAWKS_TEAM?"vs":"at"} ${displayTeamName(opponent(f))}`;
 }
 
-function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
-  selection: SavedSelection; onMove?:(id:string,p:Position)=>void; onAssign?:(id:string,p:string)=>void; exportMode?:boolean;
+function HockeyPitch({ selection, onMove, onAssign, exportMode=false, homeMatch=false }:{
+  selection: SavedSelection; onMove?:(id:string,p:Position)=>void; onAssign?:(id:string,p:string)=>void; exportMode?:boolean; homeMatch?:boolean;
 }) {
   const ref=useRef<HTMLDivElement>(null);
   const assigned=useMemo(()=>new Set(Object.values(selection.starters).filter(Boolean)),[selection.starters]);
@@ -70,11 +71,11 @@ function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
       const player=selection.starters[id]??"";
       return <div key={id} onPointerDown={(e)=>pointerDown(e,id)} className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 ${exportMode?"w-auto":"w-[25%] min-w-[92px] max-w-[150px] select-none sm:w-[20%]"}`} style={{left:`${p.x}%`,top:`${p.y}%`,touchAction:exportMode?"auto":"none"}}>
         {exportMode ? (
-          player && <div className="sports-text whitespace-nowrap rounded-full border-[3px] border-white bg-[var(--red)] px-7 py-3 text-center text-[22px] font-bold uppercase leading-none text-white shadow-lg">{player}</div>
+          player && <div className={`sports-text whitespace-nowrap rounded-full border-[3px] border-white px-7 py-3 text-center text-[22px] font-bold uppercase leading-none text-white shadow-lg ${homeMatch?"bg-black":"bg-[var(--red)]"}`}>{player}</div>
         ) : (
           <div className="relative pt-7">
             <div aria-hidden="true" className="absolute left-1/2 top-0 flex h-8 w-14 -translate-x-1/2 items-center justify-center rounded-t-lg border border-b-0 border-white/70 bg-black/80 text-base font-bold text-white">↕</div>
-            <select value={player} onPointerDown={(e)=>e.stopPropagation()} onChange={(e)=>onAssign?.(id,e.target.value)} className={`sports-text min-h-11 w-auto min-w-[112px] max-w-[170px] rounded-full border-2 px-4 text-center text-[11px] font-bold uppercase outline-none ${player?"border-white bg-[var(--red)] text-white":"border-white/80 bg-black/75 text-white"}`}>
+            <select value={player} onPointerDown={(e)=>e.stopPropagation()} onChange={(e)=>onAssign?.(id,e.target.value)} className={`sports-text min-h-11 w-auto min-w-[112px] max-w-[170px] rounded-full border-2 px-4 text-center text-[11px] font-bold uppercase outline-none ${player?`border-white ${homeMatch?"bg-black":"bg-[var(--red)]"} text-white`:"border-white/80 bg-black/75 text-white"}`}>
             <option value="">{i===0?"GK":"POSITION"}</option>
             {selection.players.map((name)=><option key={name} value={name} disabled={assigned.has(name)&&player!==name}>{name}</option>)}
             </select>
@@ -92,8 +93,9 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
   const [saved,setSaved]=useState(false);
   const exportRef=useRef<HTMLDivElement>(null);
   const fixture=fixtures.find(f=>f.id===fixtureId);
+  const homeMatch=fixture?.homeTeam===HULL_HAWKS_TEAM;
 
-  useEffect(()=>{try{const all=JSON.parse(localStorage.getItem(STORAGE_KEY)??"{}") as Record<string,SavedSelection>;setSelection(all[fixtureId]??emptySelection());}catch{setSelection(emptySelection())}setSaved(false)},[fixtureId]);
+  useEffect(()=>{try{const all=JSON.parse(localStorage.getItem(STORAGE_KEY)??"{}") as Record<string,SavedSelection>;const loaded=all[fixtureId]; setSelection(loaded?{...emptySelection(),...loaded,notes:loaded.notes??""}:emptySelection());}catch{setSelection(emptySelection())}setSaved(false)},[fixtureId]);
   const assigned=useMemo(()=>new Set(Object.values(selection.starters).filter(Boolean)),[selection.starters]);
   const startingCount=assigned.size, selectedCount=startingCount+selection.bench.length;
 
@@ -117,9 +119,9 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,.75fr)]">
       <section className="rounded-xl border border-white/15 bg-[#171719] p-3 sm:p-5">
         <div className="mb-4 flex items-center justify-between"><div><p className="meta text-white/55">Starting XI</p><p className="sports-text text-xl font-bold">{startingCount}/11 SELECTED</p></div><button onClick={resetPositions} className="sports-text min-h-11 rounded-lg border border-white/20 px-3 text-xs font-bold uppercase text-white/70">Reset positions</button></div>
-        <HockeyPitch selection={selection} onMove={move} onAssign={assign}/>
+        <HockeyPitch selection={selection} onMove={move} onAssign={assign} homeMatch={homeMatch}/>
         <p className="mt-3 text-center text-xs font-medium text-white/60">Drag using the ↕ handle above each player. The pitch stays put while you move them.</p>
-        <div className="mt-4 rounded-lg border border-white/15 bg-black/25 p-4"><div className="flex justify-between"><p className="sports-text font-bold uppercase">Bench</p><span className="text-sm text-white/60">{selection.bench.length}/5</span></div><div className="mt-3 flex min-h-10 flex-wrap gap-2">{selection.bench.length?selection.bench.map(p=><button key={p} onClick={()=>toggleBench(p)} className="min-h-10 rounded-full border border-[var(--red)] bg-[var(--red)]/20 px-4 text-sm font-semibold">{p} ×</button>):<p className="text-sm text-white/45">No substitutes selected.</p>}</div></div>
+        <div className="mt-4 grid gap-4 rounded-lg border border-white/15 bg-black/25 p-4 sm:grid-cols-2"><div><div className="flex justify-between"><p className="sports-text font-bold uppercase">Bench</p><span className="text-sm text-white/60">{selection.bench.length}/5</span></div><div className="mt-3 flex min-h-10 flex-wrap gap-2">{selection.bench.length?selection.bench.map(p=><button key={p} onClick={()=>toggleBench(p)} className="min-h-10 rounded-full border border-[var(--red)] bg-[var(--red)]/20 px-4 text-sm font-semibold">{p} ×</button>):<p className="text-sm text-white/45">No substitutes selected.</p>}</div></div><div><label className="sports-text font-bold uppercase" htmlFor="matchday-notes">Matchday notes</label><textarea id="matchday-notes" value={selection.notes??""} onChange={e=>{setSelection({...selection,notes:e.target.value});setSaved(false)}} rows={5} placeholder={"Drivers: Rochelle, Sabrina\nMeeting there: Beth\nStaying for teas: Clare"} className="mt-3 w-full resize-y rounded-lg border border-white/20 bg-[#171719] p-3 text-base leading-6 text-white outline-none placeholder:text-white/25 focus:border-[var(--red)]"/></div></div>
       </section>
 
       <aside className="h-fit rounded-xl border border-white/15 bg-[#171719] p-5"><div className="flex items-end justify-between"><div><p className="meta text-white/55">Players</p><h2 className="sports-text text-2xl font-bold uppercase">Squad</h2></div><span className="sports-text font-bold text-[var(--red)]">{selectedCount}/16</span></div>
@@ -132,8 +134,8 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
     <div className="pointer-events-none fixed left-[-99999px] top-0"><div ref={exportRef} className="box-border flex h-[1440px] w-[1080px] flex-col overflow-hidden bg-[#0d0d0e] px-[64px] py-[54px] text-white">
       <div className="flex items-center gap-6"><img src="/images/hull-hawks-logo.png" alt="" className="h-28 w-28 object-contain"/><div><p className="sports-text text-4xl font-bold uppercase text-[var(--red)]">Hull Hawks HC</p><h2 className="sports-text text-7xl font-bold uppercase">Team Selection</h2></div></div>
       <div className="mt-6 border-y border-white/20 py-4"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>}</div>
-      <div className="mx-auto mt-7 w-[520px] shrink-0"><HockeyPitch selection={selection} exportMode/></div>
-      <div className="mt-6 shrink-0"><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-3 flex flex-wrap gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-full border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-2xl text-white/40">None selected</span>}</div></div>
+      <div className="mx-auto mt-7 w-[520px] shrink-0"><HockeyPitch selection={selection} exportMode homeMatch={homeMatch}/></div>
+      <div className="mt-6 grid shrink-0 grid-cols-2 gap-10"><div><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-3 flex flex-wrap gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-full border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-2xl text-white/40">None selected</span>}</div></div><div><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Matchday Notes</p><p className="mt-3 whitespace-pre-wrap text-[21px] leading-[1.45] text-white/85">{selection.notes?.trim()||"No notes"}</p></div></div>
     </div></div>
   </div></main>;
 }
