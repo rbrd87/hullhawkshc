@@ -135,8 +135,13 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
     <div className="pointer-events-none fixed left-[-99999px] top-0"><div ref={exportRef} className="box-border flex h-[1440px] w-[1080px] flex-col overflow-hidden bg-[#0d0d0e] px-[64px] py-[54px] text-white">
       <div className="flex items-center gap-6"><img src="/images/hull-hawks-logo.png" alt="" className="h-28 w-28 object-contain"/><div><p className="sports-text text-4xl font-bold uppercase text-[var(--red)]">Hull Hawks HC</p><h2 className="sports-text text-7xl font-bold uppercase">Team Selection</h2></div></div>
       <div className="mt-6 border-y border-white/20 py-4"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>}</div>
-      <div className="mx-auto mt-7 w-[520px] shrink-0"><HockeyPitch selection={selection} exportMode homeMatch={homeMatch}/></div>
-      <div className="mt-6 grid shrink-0 grid-cols-2 gap-10"><div><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-3 flex flex-wrap gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-full border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-[21px] leading-[1.45] text-white/85">None selected</span>}</div></div><div><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Matchday Notes</p><p className="mt-3 whitespace-pre-wrap text-[21px] leading-[1.45] text-white/85">{selection.notes?.trim()||"No notes"}</p></div></div>
+      <div className="mt-7 flex min-h-0 flex-1 items-start gap-10">
+        <div className="w-[520px] shrink-0"><HockeyPitch selection={selection} exportMode homeMatch={homeMatch}/></div>
+        <div className="min-w-0 flex-1 pt-2">
+          <div><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-4 flex flex-col items-start gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-[7px] border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-[21px] leading-[1.45] text-white/85">None selected</span>}</div></div>
+          <div className="mt-10"><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Matchday Notes</p><p className="mt-4 whitespace-pre-wrap text-[21px] leading-[1.5] text-white/85">{selection.notes?.trim()||"No notes"}</p></div>
+        </div>
+      </div>
     </div></div>
   </div></main>;
 }
