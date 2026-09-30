@@ -32,58 +32,104 @@ function FixtureRow({ fixture }: { fixture: Fixture }) {
     ? "/images/hull-hawks-logo.png"
     : opponentLogoForHawks(fixture);
 
+  const hawksVenueLabel = homeIsHawks ? "Home" : "Away";
+
   return (
-    <div className="relative grid gap-4 py-5 md:grid-cols-[150px_1fr_auto] md:items-center">
-      <div>
+    <div className="py-5">
+      {/* Mobile */}
+      <div className="md:hidden">
         <p className="sports-text text-lg font-semibold uppercase">
           {fmt.format(new Date(`${fixture.date}T12:00:00`))}
         </p>
-        <p className="mt-1 text-sm text-white/40">{fixture.time ?? "TBC"}</p>
-      </div>
 
-      <div>
-        <div className="flex items-center gap-3">
-          {/* Home crest */}
-          <img
-            src={homeLogo}
-            alt={`${fixture.homeTeam} logo`}
-            className={`shrink-0 object-contain ${
-              homeIsHawks ? "h-8 w-10" : "h-9 w-9"
-            }`}
-          />
+        <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <img
+              src={homeLogo}
+              alt={`${fixture.homeTeam} logo`}
+              className={`shrink-0 object-contain ${
+                homeIsHawks ? "h-8 w-10" : "h-9 w-9"
+              }`}
+            />
+            <p className="sports-text min-w-0 text-xl font-semibold uppercase leading-tight">
+              {fixture.homeTeam}
+            </p>
+          </div>
 
-          {/* Home team */}
-          <p className="sports-text text-xl font-semibold uppercase">
-            {fixture.homeTeam}
-          </p>
-
-          <span className="sports-text mx-1 text-lg font-normal uppercase text-white/25">
+          <span className="sports-text text-lg font-normal uppercase text-white/25">
             vs
           </span>
 
-          {/* Away team */}
-          <p className="sports-text text-xl font-semibold uppercase">
-            {fixture.awayTeam}
-          </p>
-
-          {/* Away crest */}
-          <img
-            src={awayLogo}
-            alt={`${fixture.awayTeam} logo`}
-            className={`shrink-0 object-contain ${
-              awayIsHawks ? "h-8 w-10" : "h-9 w-9"
-            }`}
-          />
+          <div className="flex min-w-0 items-center justify-end gap-3 text-right">
+            <p className="sports-text min-w-0 text-xl font-semibold uppercase leading-tight">
+              {fixture.awayTeam}
+            </p>
+            <img
+              src={awayLogo}
+              alt={`${fixture.awayTeam} logo`}
+              className={`shrink-0 object-contain ${
+                awayIsHawks ? "h-8 w-10" : "h-9 w-9"
+              }`}
+            />
+          </div>
         </div>
 
-        {fixture.venue && (
-          <p className="mt-2 pl-12 text-sm text-white/40">{fixture.venue}</p>
-        )}
+        <div className="mt-5 pl-12">
+          <p className="text-sm text-white/45">
+            {fixture.venue ?? "Venue TBC"} <span className="mx-1 text-white/20">•</span>{" "}
+            {fixture.time ?? "TBC"}
+          </p>
+          <p className="sports-text mt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-[var(--red)]">
+            {hawksVenueLabel}
+          </p>
+        </div>
       </div>
 
-      <span className="sports-text absolute bottom-5 right-0 w-fit rounded border border-white/15 px-3 py-2 text-[11px] font-medium uppercase tracking-[.14em] text-white/50 md:static">
-        {homeIsHawks ? "Home" : "Away"}
-      </span>
+      {/* Desktop/tablet - unchanged layout */}
+      <div className="hidden md:grid md:grid-cols-[150px_1fr_auto] md:items-center md:gap-4">
+        <div>
+          <p className="sports-text text-lg font-semibold uppercase">
+            {fmt.format(new Date(`${fixture.date}T12:00:00`))}
+          </p>
+          <p className="mt-1 text-sm text-white/40">{fixture.time ?? "TBC"}</p>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-3">
+            <img
+              src={homeLogo}
+              alt={`${fixture.homeTeam} logo`}
+              className={`shrink-0 object-contain ${
+                homeIsHawks ? "h-8 w-10" : "h-9 w-9"
+              }`}
+            />
+            <p className="sports-text text-xl font-semibold uppercase">
+              {fixture.homeTeam}
+            </p>
+            <span className="sports-text mx-1 text-lg font-normal uppercase text-white/25">
+              vs
+            </span>
+            <p className="sports-text text-xl font-semibold uppercase">
+              {fixture.awayTeam}
+            </p>
+            <img
+              src={awayLogo}
+              alt={`${fixture.awayTeam} logo`}
+              className={`shrink-0 object-contain ${
+                awayIsHawks ? "h-8 w-10" : "h-9 w-9"
+              }`}
+            />
+          </div>
+
+          {fixture.venue && (
+            <p className="mt-2 pl-12 text-sm text-white/40">{fixture.venue}</p>
+          )}
+        </div>
+
+        <span className="sports-text w-fit rounded border border-white/15 px-3 py-2 text-[11px] font-medium uppercase tracking-[.14em] text-white/50">
+          {hawksVenueLabel}
+        </span>
+      </div>
     </div>
   );
 }
