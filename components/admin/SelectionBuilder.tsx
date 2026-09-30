@@ -1,268 +1,134 @@
 "use client";
 
+import { toPng } from "html-to-image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Fixture } from "@/types/hockey";
 import { displayTeamName, HULL_HAWKS_TEAM } from "@/lib/hockey";
 
-type Formation = "4-3-3" | "3-4-3" | "4-4-2";
+type Position = { x: number; y: number };
 type SavedSelection = {
-  formation: Formation;
   players: string[];
   starters: Record<string, string>;
+  positions: Record<string, Position>;
   bench: string[];
 };
 
-const STORAGE_KEY = "hawks-matchday-selections";
-
-const FORMATIONS: Record<Formation, { id: string; label: string; x: number; y: number }[]> = {
-  "4-3-3": [
-    { id: "gk", label: "GK", x: 50, y: 91 },
-    { id: "lb", label: "LB", x: 15, y: 72 }, { id: "lcb", label: "CB", x: 38, y: 76 },
-    { id: "rcb", label: "CB", x: 62, y: 76 }, { id: "rb", label: "RB", x: 85, y: 72 },
-    { id: "lm", label: "MID", x: 24, y: 48 }, { id: "cm", label: "MID", x: 50, y: 53 },
-    { id: "rm", label: "MID", x: 76, y: 48 },
-    { id: "lf", label: "FWD", x: 22, y: 23 }, { id: "cf", label: "FWD", x: 50, y: 18 },
-    { id: "rf", label: "FWD", x: 78, y: 23 },
-  ],
-  "3-4-3": [
-    { id: "gk", label: "GK", x: 50, y: 91 },
-    { id: "ld", label: "DEF", x: 22, y: 73 }, { id: "cd", label: "DEF", x: 50, y: 78 },
-    { id: "rd", label: "DEF", x: 78, y: 73 },
-    { id: "lm", label: "MID", x: 12, y: 48 }, { id: "lcm", label: "MID", x: 38, y: 53 },
-    { id: "rcm", label: "MID", x: 62, y: 53 }, { id: "rm", label: "MID", x: 88, y: 48 },
-    { id: "lf", label: "FWD", x: 22, y: 22 }, { id: "cf", label: "FWD", x: 50, y: 17 },
-    { id: "rf", label: "FWD", x: 78, y: 22 },
-  ],
-  "4-4-2": [
-    { id: "gk", label: "GK", x: 50, y: 91 },
-    { id: "lb", label: "LB", x: 15, y: 72 }, { id: "lcb", label: "CB", x: 38, y: 76 },
-    { id: "rcb", label: "CB", x: 62, y: 76 }, { id: "rb", label: "RB", x: 85, y: 72 },
-    { id: "lm", label: "MID", x: 12, y: 47 }, { id: "lcm", label: "MID", x: 38, y: 52 },
-    { id: "rcm", label: "MID", x: 62, y: 52 }, { id: "rm", label: "MID", x: 88, y: 47 },
-    { id: "lf", label: "FWD", x: 34, y: 20 }, { id: "rf", label: "FWD", x: 66, y: 20 },
-  ],
+const STORAGE_KEY = "hawks-matchday-selections-v2";
+const SLOT_IDS = ["gk","d1","d2","d3","d4","m1","m2","m3","f1","f2","f3"];
+const DEFAULT_POSITIONS: Record<string, Position> = {
+  gk:{x:50,y:91}, d1:{x:15,y:73}, d2:{x:38,y:76}, d3:{x:62,y:76}, d4:{x:85,y:73},
+  m1:{x:24,y:50}, m2:{x:50,y:54}, m3:{x:76,y:50},
+  f1:{x:22,y:25}, f2:{x:50,y:20}, f3:{x:78,y:25},
 };
 
 function emptySelection(): SavedSelection {
-  return { formation: "4-3-3", players: [], starters: {}, bench: [] };
+  return { players: [], starters: {}, positions: { ...DEFAULT_POSITIONS }, bench: [] };
+}
+function opponent(f: Fixture) { return f.homeTeam === HULL_HAWKS_TEAM ? f.awayTeam : f.homeTeam; }
+function fixtureLabel(f: Fixture) {
+  const date=new Intl.DateTimeFormat("en-GB",{weekday:"short",day:"numeric",month:"short"}).format(new Date(`${f.date}T12:00:00`));
+  return `${date} · ${f.homeTeam===HULL_HAWKS_TEAM?"vs":"at"} ${displayTeamName(opponent(f))}`;
 }
 
-function fixtureLabel(fixture: Fixture) {
-  const opponent =
-    fixture.homeTeam === HULL_HAWKS_TEAM ? fixture.awayTeam : fixture.homeTeam;
-  const date = new Intl.DateTimeFormat("en-GB", {
-    weekday: "short", day: "numeric", month: "short",
-  }).format(new Date(`${fixture.date}T12:00:00`));
-  return `${date} · ${fixture.homeTeam === HULL_HAWKS_TEAM ? "vs" : "at"} ${displayTeamName(opponent)}`;
+function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
+  selection: SavedSelection; onMove?:(id:string,p:Position)=>void; onAssign?:(id:string,p:string)=>void; exportMode?:boolean;
+}) {
+  const ref=useRef<HTMLDivElement>(null);
+  const assigned=useMemo(()=>new Set(Object.values(selection.starters).filter(Boolean)),[selection.starters]);
+
+  function pointerDown(e:React.PointerEvent,id:string){
+    if(exportMode||!onMove||!ref.current) return;
+    const el=e.currentTarget as HTMLElement;
+    el.setPointerCapture(e.pointerId);
+    const move=(ev:PointerEvent)=>{
+      if(!ref.current) return;
+      const r=ref.current.getBoundingClientRect();
+      onMove(id,{x:Math.max(7,Math.min(93,((ev.clientX-r.left)/r.width)*100)),y:Math.max(6,Math.min(94,((ev.clientY-r.top)/r.height)*100))});
+    };
+    const up=()=>{ el.removeEventListener("pointermove",move); el.removeEventListener("pointerup",up); };
+    el.addEventListener("pointermove",move); el.addEventListener("pointerup",up);
+  }
+
+  return <div ref={ref} className="relative aspect-[55/91.4] w-full overflow-hidden rounded-xl border-2 border-white bg-[#167a49] shadow-[inset_0_0_80px_rgba(0,0,0,.18)]">
+    {/* Proper outdoor hockey markings: halfway, 23m lines, goals and shooting circles */}
+    <div className="absolute inset-[2.5%] border-2 border-white/95"/>
+    <div className="absolute left-[2.5%] right-[2.5%] top-1/2 border-t-2 border-white/95"/>
+    <div className="absolute left-[2.5%] right-[2.5%] top-[27.5%] border-t-2 border-white/95"/>
+    <div className="absolute bottom-[27.5%] left-[2.5%] right-[2.5%] border-t-2 border-white/95"/>
+    <div className="absolute left-1/2 top-[2.5%] h-[3%] w-[18%] -translate-x-1/2 border-x-2 border-b-2 border-white bg-[#126b40]"/>
+    <div className="absolute bottom-[2.5%] left-1/2 h-[3%] w-[18%] -translate-x-1/2 border-x-2 border-t-2 border-white bg-[#126b40]"/>
+    <div className="absolute left-1/2 top-[2.5%] h-[17.5%] w-[54%] -translate-x-1/2 rounded-b-[50%] border-x-2 border-b-2 border-white/95"/>
+    <div className="absolute bottom-[2.5%] left-1/2 h-[17.5%] w-[54%] -translate-x-1/2 rounded-t-[50%] border-x-2 border-t-2 border-white/95"/>
+    <div className="absolute left-1/2 top-[14%] h-2 w-2 -translate-x-1/2 rounded-full bg-white"/>
+    <div className="absolute bottom-[14%] left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-white"/>
+
+    {SLOT_IDS.map((id,i)=>{
+      const p=selection.positions[id]??DEFAULT_POSITIONS[id];
+      const player=selection.starters[id]??"";
+      return <div key={id} onPointerDown={(e)=>pointerDown(e,id)} className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 ${exportMode?"w-[31%]":"w-[34%] touch-none sm:w-[29%]"}`} style={{left:`${p.x}%`,top:`${p.y}%`}}>
+        {exportMode ? (
+          player && <div className="sports-text rounded-full border-2 border-white bg-[var(--red)] px-2 py-2 text-center text-sm font-bold uppercase text-white shadow-lg">{player}</div>
+        ) : (
+          <select value={player} onPointerDown={(e)=>e.stopPropagation()} onChange={(e)=>onAssign?.(id,e.target.value)} className={`sports-text min-h-11 w-full rounded-full border-2 px-2 text-center text-[11px] font-bold uppercase outline-none ${player?"border-white bg-[var(--red)] text-white":"border-white/80 bg-black/75 text-white"}`}>
+            <option value="">{i===0?"GK":"POSITION"}</option>
+            {selection.players.map((name)=><option key={name} value={name} disabled={assigned.has(name)&&player!==name}>{name}</option>)}
+          </select>
+        )}
+      </div>;
+    })}
+  </div>;
 }
 
-export default function SelectionBuilder({ fixtures }: { fixtures: Fixture[] }) {
-  const [fixtureId, setFixtureId] = useState(fixtures[0]?.id ?? "general");
-  const [selection, setSelection] = useState<SavedSelection>(emptySelection);
-  const [newPlayer, setNewPlayer] = useState("");
-  const [saved, setSaved] = useState(false);
+export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
+  const [fixtureId,setFixtureId]=useState(fixtures[0]?.id??"general");
+  const [selection,setSelection]=useState<SavedSelection>(emptySelection);
+  const [newPlayer,setNewPlayer]=useState("");
+  const [saved,setSaved]=useState(false);
+  const exportRef=useRef<HTMLDivElement>(null);
+  const fixture=fixtures.find(f=>f.id===fixtureId);
 
-  useEffect(() => {
-    try {
-      const all = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}") as Record<string, SavedSelection>;
-      setSelection(all[fixtureId] ?? emptySelection());
-    } catch {
-      setSelection(emptySelection());
-    }
-    setSaved(false);
-  }, [fixtureId]);
+  useEffect(()=>{try{const all=JSON.parse(localStorage.getItem(STORAGE_KEY)??"{}") as Record<string,SavedSelection>;setSelection(all[fixtureId]??emptySelection());}catch{setSelection(emptySelection())}setSaved(false)},[fixtureId]);
+  const assigned=useMemo(()=>new Set(Object.values(selection.starters).filter(Boolean)),[selection.starters]);
+  const startingCount=assigned.size, selectedCount=startingCount+selection.bench.length;
 
-  const assigned = useMemo(() => new Set(Object.values(selection.starters).filter(Boolean)), [selection.starters]);
-  const availableForBench = selection.players.filter((p) => !assigned.has(p));
+  function addPlayer(){const n=newPlayer.trim();if(!n||selection.players.some(p=>p.toLowerCase()===n.toLowerCase()))return;setSelection({...selection,players:[...selection.players,n].sort()});setNewPlayer("");setSaved(false)}
+  function assign(id:string,player:string){const starters={...selection.starters};Object.entries(starters).forEach(([k,v])=>{if(v===player)delete starters[k]});if(player)starters[id]=player;else delete starters[id];setSelection({...selection,starters,bench:selection.bench.filter(p=>p!==player)});setSaved(false)}
+  function move(id:string,p:Position){setSelection(s=>({...s,positions:{...s.positions,[id]:p}}));setSaved(false)}
+  function toggleBench(player:string){const on=selection.bench.includes(player);if(!on&&(selection.bench.length>=5||selectedCount>=16))return;setSelection({...selection,bench:on?selection.bench.filter(p=>p!==player):[...selection.bench,player]});setSaved(false)}
+  function removePlayer(player:string){setSelection({...selection,players:selection.players.filter(p=>p!==player),starters:Object.fromEntries(Object.entries(selection.starters).filter(([,p])=>p!==player)),bench:selection.bench.filter(p=>p!==player)});setSaved(false)}
+  function save(){const all=JSON.parse(localStorage.getItem(STORAGE_KEY)??"{}") as Record<string,SavedSelection>;all[fixtureId]=selection;localStorage.setItem(STORAGE_KEY,JSON.stringify(all));setSaved(true)}
+  function resetPositions(){setSelection({...selection,positions:{...DEFAULT_POSITIONS}});setSaved(false)}
+  async function download(){if(!exportRef.current)return;const data=await toPng(exportRef.current,{pixelRatio:1,canvasWidth:1080,canvasHeight:1440,backgroundColor:"#0d0d0e"});const a=document.createElement("a");a.download=`hull-hawks-selection-${fixture?.date??"squad"}.png`;a.href=data;a.click()}
 
-  function updateFormation(formation: Formation) {
-    const validIds = new Set(FORMATIONS[formation].map((slot) => slot.id));
-    const starters = Object.fromEntries(
-      Object.entries(selection.starters).filter(([id]) => validIds.has(id)),
-    );
-    setSelection({ ...selection, formation, starters });
-    setSaved(false);
-  }
+  return <main className="min-h-screen bg-[var(--black)] text-white"><div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-12">
+    <header className="mb-7 border-b border-white/15 pb-6"><Link href="/admin" className="sports-text text-xs font-bold uppercase tracking-[.12em] text-white/60">← Admin</Link>
+      <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="eyebrow text-[var(--red)]">Matchday</p><h1 className="sports-text mt-1 text-5xl font-bold uppercase sm:text-6xl">Selection</h1><p className="mt-2 text-sm text-white/65">Pick up to 16. Put 11 on the pitch. Move them wherever you want.</p></div>
+        <div className="grid grid-cols-2 gap-2 sm:flex"><button onClick={save} className="sports-text min-h-12 rounded-lg border border-white/25 bg-white/10 px-5 font-bold uppercase">{saved?"✓ Saved":"Save"}</button><button onClick={download} className="sports-text min-h-12 rounded-lg bg-[var(--red)] px-5 font-bold uppercase">Download PNG</button></div>
+      </div></header>
 
-  function addPlayer() {
-    const name = newPlayer.trim();
-    if (!name || selection.players.some((p) => p.toLowerCase() === name.toLowerCase())) return;
-    setSelection({ ...selection, players: [...selection.players, name].sort((a, b) => a.localeCompare(b)) });
-    setNewPlayer("");
-    setSaved(false);
-  }
+    <div className="mb-5"><label className="meta text-white/65">Fixture</label><select value={fixtureId} onChange={e=>setFixtureId(e.target.value)} className="mt-2 min-h-12 w-full rounded-lg border border-white/25 bg-[#1b1b1e] px-4 text-base text-white outline-none focus:border-[var(--red)]">{fixtures.length===0&&<option value="general">General squad</option>}{fixtures.map(f=><option key={f.id} value={f.id}>{fixtureLabel(f)}</option>)}</select></div>
 
-  function assign(slotId: string, player: string) {
-    const starters = { ...selection.starters };
-    for (const [id, name] of Object.entries(starters)) {
-      if (name === player) delete starters[id];
-    }
-    if (player) starters[slotId] = player;
-    else delete starters[slotId];
-    setSelection({ ...selection, starters, bench: selection.bench.filter((p) => p !== player) });
-    setSaved(false);
-  }
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,.75fr)]">
+      <section className="rounded-xl border border-white/15 bg-[#171719] p-3 sm:p-5">
+        <div className="mb-4 flex items-center justify-between"><div><p className="meta text-white/55">Starting XI</p><p className="sports-text text-xl font-bold">{startingCount}/11 SELECTED</p></div><button onClick={resetPositions} className="sports-text min-h-11 rounded-lg border border-white/20 px-3 text-xs font-bold uppercase text-white/70">Reset positions</button></div>
+        <HockeyPitch selection={selection} onMove={move} onAssign={assign}/>
+        <p className="mt-3 text-center text-xs font-medium text-white/60">Drag a player marker to create your own formation.</p>
+        <div className="mt-4 rounded-lg border border-white/15 bg-black/25 p-4"><div className="flex justify-between"><p className="sports-text font-bold uppercase">Bench</p><span className="text-sm text-white/60">{selection.bench.length}/5</span></div><div className="mt-3 flex min-h-10 flex-wrap gap-2">{selection.bench.length?selection.bench.map(p=><button key={p} onClick={()=>toggleBench(p)} className="min-h-10 rounded-full border border-[var(--red)] bg-[var(--red)]/20 px-4 text-sm font-semibold">{p} ×</button>):<p className="text-sm text-white/45">No substitutes selected.</p>}</div></div>
+      </section>
 
-  function toggleBench(player: string) {
-    const isOnBench = selection.bench.includes(player);
+      <aside className="h-fit rounded-xl border border-white/15 bg-[#171719] p-5"><div className="flex items-end justify-between"><div><p className="meta text-white/55">Players</p><h2 className="sports-text text-2xl font-bold uppercase">Squad</h2></div><span className="sports-text font-bold text-[var(--red)]">{selectedCount}/16</span></div>
+        <div className="mt-5 flex gap-2"><input value={newPlayer} onChange={e=>setNewPlayer(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addPlayer()} placeholder="Player name" className="min-h-12 min-w-0 flex-1 rounded-lg border border-white/25 bg-black/30 px-3 text-base outline-none focus:border-[var(--red)]"/><button onClick={addPlayer} className="sports-text min-h-12 rounded-lg bg-white/15 px-4 font-bold uppercase">Add</button></div>
+        <div className="mt-5 divide-y divide-white/15 border-y border-white/15">{selection.players.length===0?<p className="py-8 text-center text-sm text-white/50">Add players, then select your starting XI on the pitch.</p>:selection.players.map(p=>{const starting=assigned.has(p),benched=selection.bench.includes(p);return <div key={p} className="flex min-h-14 items-center gap-3 py-2"><div className="min-w-0 flex-1"><p className="truncate font-semibold">{p}</p><p className="text-xs text-white/50">{starting?"Starting XI":benched?"Bench":"Not selected"}</p></div>{!starting&&<button disabled={!benched&&(selection.bench.length>=5||selectedCount>=16)} onClick={()=>toggleBench(p)} className={`sports-text min-h-10 rounded-lg px-3 text-xs font-bold uppercase ${benched?"bg-[var(--red)]":"bg-white/10 disabled:opacity-25"}`}>{benched?"Bench ✓":"Bench"}</button>}<button onClick={()=>removePlayer(p)} className="min-h-11 min-w-11 text-xl text-white/45">×</button></div>})}</div>
+        <p className="mt-4 text-xs leading-5 text-white/45">Maximum matchday squad: 16 — 11 on the pitch and up to 5 substitutes.</p>
+      </aside>
+    </div>
 
-    if (!isOnBench && (selection.bench.length >= 5 || selectedCount >= 16)) {
-      return;
-    }
-
-    const bench = isOnBench
-      ? selection.bench.filter((p) => p !== player)
-      : [...selection.bench, player];
-
-    setSelection({ ...selection, bench });
-    setSaved(false);
-  }
-
-  function removePlayer(player: string) {
-    const starters = Object.fromEntries(Object.entries(selection.starters).filter(([, p]) => p !== player));
-    setSelection({
-      ...selection,
-      players: selection.players.filter((p) => p !== player),
-      starters,
-      bench: selection.bench.filter((p) => p !== player),
-    });
-    setSaved(false);
-  }
-
-  function saveSelection() {
-    const all = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}") as Record<string, SavedSelection>;
-    all[fixtureId] = selection;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-    setSaved(true);
-  }
-
-  const startingCount = Object.values(selection.starters).filter(Boolean).length;
-  const selectedCount = startingCount + selection.bench.length;
-
-  return (
-    <main className="min-h-screen bg-[var(--black)] text-white">
-      <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 lg:px-8 lg:py-12">
-        <header className="mb-8 border-b border-white/10 pb-7">
-          <Link href="/admin" className="sports-text text-xs font-semibold uppercase tracking-[.12em] text-white/35 hover:text-white">
-            ← Admin
-          </Link>
-          <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="eyebrow text-[var(--red)]">Matchday</p>
-              <h1 className="sports-text mt-2 text-5xl font-bold uppercase tracking-tight sm:text-6xl">Selection</h1>
-              <p className="mt-2 text-sm text-white/45">Build and manage the matchday squad.</p>
-            </div>
-            <button onClick={saveSelection} className="sports-text min-h-11 rounded-lg bg-[var(--red)] px-6 py-3 text-sm font-semibold uppercase tracking-[.08em] hover:bg-[var(--red-dark)]">
-              {saved ? "✓ Saved" : "Save Selection"}
-            </button>
-          </div>
-        </header>
-
-        <div className="mb-6 grid gap-4 sm:grid-cols-2">
-          <div>
-            <label className="meta text-white/40">Fixture</label>
-            <select value={fixtureId} onChange={(e) => setFixtureId(e.target.value)} className="mt-2 min-h-12 w-full rounded-lg border border-white/15 bg-[#161618] px-4 text-white outline-none focus:border-[var(--red)]">
-              {fixtures.length === 0 && <option value="general">General squad</option>}
-              {fixtures.map((fixture) => <option key={fixture.id} value={fixture.id}>{fixtureLabel(fixture)}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="meta text-white/40">Formation</label>
-            <div className="mt-2 grid grid-cols-3 gap-2">
-              {(Object.keys(FORMATIONS) as Formation[]).map((formation) => (
-                <button key={formation} onClick={() => updateFormation(formation)} className={`sports-text min-h-12 rounded-lg border px-3 font-semibold ${selection.formation === formation ? "border-[var(--red)] bg-[var(--red)]/15 text-white" : "border-white/10 bg-white/[.03] text-white/45"}`}>
-                  {formation}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,.75fr)]">
-          <section className="panel rounded-xl p-3 sm:p-5">
-            <div className="mb-4 flex items-center justify-between px-1">
-              <div>
-                <p className="meta text-white/35">Starting XI</p>
-                <p className="sports-text mt-1 text-xl font-semibold uppercase">{startingCount}/11 selected</p>
-              </div>
-              <span className="sports-text text-sm text-white/30">{selection.formation}</span>
-            </div>
-
-            <div className="relative aspect-[3/4] overflow-hidden rounded-lg border border-white/15 bg-[#18271e] sm:aspect-[4/3]">
-              <div className="absolute inset-[4%] rounded-[42%] border border-white/35" />
-              <div className="absolute left-[4%] right-[4%] top-1/2 border-t border-white/35" />
-              <div className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/35" />
-              <div className="absolute left-[22%] right-[22%] top-[4%] h-[15%] border-x border-b border-white/35" />
-              <div className="absolute bottom-[4%] left-[22%] right-[22%] h-[15%] border-x border-t border-white/35" />
-
-              {FORMATIONS[selection.formation].map((slot) => (
-                <div key={slot.id} className="absolute z-10 w-[27%] -translate-x-1/2 -translate-y-1/2 sm:w-[23%]" style={{ left: `${slot.x}%`, top: `${slot.y}%` }}>
-                  <select
-                    aria-label={slot.label}
-                    value={selection.starters[slot.id] ?? ""}
-                    onChange={(e) => assign(slot.id, e.target.value)}
-                    className={`sports-text w-full rounded-md border px-1 py-2 text-center text-[10px] font-semibold uppercase outline-none sm:text-xs ${selection.starters[slot.id] ? "border-[var(--red)] bg-[var(--red)] text-white" : "border-white/20 bg-black/75 text-white/45"}`}
-                  >
-                    <option value="">{slot.label}</option>
-                    {selection.players.map((player) => (
-                      <option key={player} value={player} disabled={assigned.has(player) && selection.starters[slot.id] !== player}>{player}</option>
-                    ))}
-                  </select>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-4 rounded-lg border border-white/10 bg-white/[.025] p-4">
-              <div className="flex items-center justify-between">
-                <p className="sports-text font-semibold uppercase">Bench</p>
-                <span className="text-xs text-white/35">{selection.bench.length}/5 selected</span>
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {selection.bench.length === 0 ? <p className="text-sm text-white/30">No substitutes selected yet.</p> : selection.bench.map((player) => (
-                  <button key={player} onClick={() => toggleBench(player)} className="rounded-full border border-[var(--red)]/40 bg-[var(--red)]/10 px-3 py-1.5 text-sm text-white/80">{player} ×</button>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <aside className="panel h-fit rounded-xl p-5">
-            <div className="flex items-end justify-between">
-              <div>
-                <p className="meta text-white/35">Players</p>
-                <h2 className="sports-text mt-1 text-2xl font-bold uppercase">Squad</h2>
-              </div>
-              <span className="sports-text text-sm text-white/35">{selectedCount}/16 matchday</span>
-            </div>
-
-            <div className="mt-5 flex gap-2">
-              <input value={newPlayer} onChange={(e) => setNewPlayer(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addPlayer()} placeholder="Player name" className="min-h-11 min-w-0 flex-1 rounded-lg border border-white/15 bg-[#161618] px-3 text-sm outline-none placeholder:text-white/25 focus:border-[var(--red)]" />
-              <button onClick={addPlayer} className="sports-text rounded-lg bg-white/10 px-4 text-sm font-semibold uppercase hover:bg-white/15">Add</button>
-            </div>
-
-            <div className="mt-5 divide-y divide-white/10 border-y border-white/10">
-              {selection.players.length === 0 ? (
-                <p className="py-8 text-center text-sm leading-6 text-white/30">Add your players here, then choose the starting XI on the pitch.</p>
-              ) : selection.players.map((player) => {
-                const starting = assigned.has(player);
-                const benched = selection.bench.includes(player);
-                return (
-                  <div key={player} className="flex items-center gap-3 py-3">
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium">{player}</p>
-                      <p className="mt-0.5 text-xs text-white/30">{starting ? "Starting XI" : benched ? "Bench" : "Not selected"}</p>
-                    </div>
-                    {!starting && <button onClick={() => toggleBench(player)} className={`sports-text rounded px-2.5 py-1.5 text-[10px] font-semibold uppercase ${benched ? "bg-[var(--red)] text-white" : "bg-white/5 text-white/45"}`}>{benched ? "Bench ✓" : "Bench"}</button>}
-                    <button onClick={() => removePlayer(player)} aria-label={`Remove ${player}`} className="px-1 text-white/20 hover:text-red-300">×</button>
-                  </div>
-                );
-              })}
-            </div>
-
-            <p className="mt-4 text-xs leading-5 text-white/25">Maximum matchday squad: 16 players — 11 on the pitch and up to 5 on the bench. For this first version, selections are saved only in this browser on this device.</p>
-          </aside>
-        </div>
-      </div>
-    </main>
-  );
+    <div className="pointer-events-none fixed left-[-99999px] top-0"><div ref={exportRef} className="flex h-[1440px] w-[1080px] flex-col bg-[#0d0d0e] p-[70px] text-white">
+      <div className="flex items-center gap-6"><img src="/images/hull-hawks-logo.png" alt="" className="h-28 w-28 object-contain"/><div><p className="sports-text text-4xl font-bold uppercase text-[var(--red)]">Hull Hawks HC</p><h2 className="sports-text text-7xl font-bold uppercase">Team Selection</h2></div></div>
+      <div className="mt-8 border-y border-white/20 py-5"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>}</div>
+      <div className="mx-auto mt-8 w-[570px]"><HockeyPitch selection={selection} exportMode/></div>
+      <div className="mt-8"><p className="sports-text text-3xl font-bold uppercase text-[var(--red)]">Substitutes</p><div className="mt-3 flex flex-wrap gap-3">{selection.bench.map(p=><span key={p} className="sports-text rounded-full border border-white/30 bg-white/10 px-5 py-3 text-2xl font-bold uppercase">{p}</span>)}{selection.bench.length===0&&<span className="text-2xl text-white/40">None selected</span>}</div></div>
+    </div></div>
+  </div></main>;
 }
