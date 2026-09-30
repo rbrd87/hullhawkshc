@@ -20,10 +20,6 @@ const monthFmt = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
 });
 
-function displayTeamName(name: string) {
-  return name.replace(/\s+W(\d+)\b/g, " $1");
-}
-
 function FixtureRow({ fixture }: { fixture: Fixture }) {
   const homeIsHawks = fixture.homeTeam === HULL_HAWKS_TEAM;
   const awayIsHawks = fixture.awayTeam === HULL_HAWKS_TEAM;
