@@ -1,4 +1,4 @@
-import { HULL_HAWKS_TEAM } from "@/lib/hockey";
+import { displayTeamName, HULL_HAWKS_TEAM } from "@/lib/hockey";
 import type { LeagueRow } from "@/types/hockey";
 
 export function LeagueTable({
@@ -71,7 +71,7 @@ export function LeagueTable({
 
                 <td className="py-3 pr-2 font-medium">
                   <span className="block truncate sm:whitespace-nowrap">
-                    {row.team}
+                    {displayTeamName(row.team)}
                   </span>
                 </td>
 
