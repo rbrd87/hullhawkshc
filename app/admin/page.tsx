@@ -22,8 +22,8 @@ const adminSections = [
   {
     title: "Selection",
     description: "Build and manage the matchday squad.",
-    href: "#",
-    status: "Coming Soon",
+    href: "/admin/selection",
+    status: "Available",
   },
   {
     title: "Matchday Jobs",
