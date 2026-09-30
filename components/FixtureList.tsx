@@ -20,6 +20,10 @@ const monthFmt = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
 });
 
+function displayTeamName(name: string) {
+  return name.replace(/\s+W(\d+)\b/g, " $1");
+}
+
 function FixtureRow({ fixture }: { fixture: Fixture }) {
   const homeIsHawks = fixture.homeTeam === HULL_HAWKS_TEAM;
   const awayIsHawks = fixture.awayTeam === HULL_HAWKS_TEAM;
@@ -46,13 +50,13 @@ function FixtureRow({ fixture }: { fixture: Fixture }) {
           <div className="flex min-w-0 items-center gap-3">
             <img
               src={homeLogo}
-              alt={`${fixture.homeTeam} logo`}
+              alt={`${displayTeamName(fixture.homeTeam)} logo`}
               className={`shrink-0 object-contain ${
                 homeIsHawks ? "h-8 w-10" : "h-9 w-9"
               }`}
             />
             <p className="sports-text min-w-0 text-xl font-semibold uppercase leading-tight">
-              {fixture.homeTeam}
+              {displayTeamName(fixture.homeTeam)}
             </p>
           </div>
 
@@ -62,11 +66,11 @@ function FixtureRow({ fixture }: { fixture: Fixture }) {
 
           <div className="flex min-w-0 items-center justify-end gap-3 text-right">
             <p className="sports-text min-w-0 text-xl font-semibold uppercase leading-tight">
-              {fixture.awayTeam}
+              {displayTeamName(fixture.awayTeam)}
             </p>
             <img
               src={awayLogo}
-              alt={`${fixture.awayTeam} logo`}
+              alt={`${displayTeamName(fixture.awayTeam)} logo`}
               className={`shrink-0 object-contain ${
                 awayIsHawks ? "h-8 w-10" : "h-9 w-9"
               }`}
@@ -74,7 +78,7 @@ function FixtureRow({ fixture }: { fixture: Fixture }) {
           </div>
         </div>
 
-        <div className="mt-5 pl-12">
+        <div className="mt-5">
           <p className="text-sm text-white/45">
             {fixture.venue ?? "Venue TBC"} <span className="mx-1 text-white/20">•</span>{" "}
             {fixture.time ?? "TBC"}
@@ -98,23 +102,23 @@ function FixtureRow({ fixture }: { fixture: Fixture }) {
           <div className="flex items-center gap-3">
             <img
               src={homeLogo}
-              alt={`${fixture.homeTeam} logo`}
+              alt={`${displayTeamName(fixture.homeTeam)} logo`}
               className={`shrink-0 object-contain ${
                 homeIsHawks ? "h-8 w-10" : "h-9 w-9"
               }`}
             />
             <p className="sports-text text-xl font-semibold uppercase">
-              {fixture.homeTeam}
+              {displayTeamName(fixture.homeTeam)}
             </p>
             <span className="sports-text mx-1 text-lg font-normal uppercase text-white/25">
               vs
             </span>
             <p className="sports-text text-xl font-semibold uppercase">
-              {fixture.awayTeam}
+              {displayTeamName(fixture.awayTeam)}
             </p>
             <img
               src={awayLogo}
-              alt={`${fixture.awayTeam} logo`}
+              alt={`${displayTeamName(fixture.awayTeam)} logo`}
               className={`shrink-0 object-contain ${
                 awayIsHawks ? "h-8 w-10" : "h-9 w-9"
               }`}
