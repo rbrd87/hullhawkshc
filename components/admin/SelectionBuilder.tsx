@@ -39,6 +39,8 @@ function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
 
   function pointerDown(e:React.PointerEvent,id:string){
     if(exportMode||!onMove||!ref.current) return;
+    e.preventDefault();
+    e.stopPropagation();
     const el=e.currentTarget as HTMLElement;
     el.setPointerCapture(e.pointerId);
     const move=(ev:PointerEvent)=>{
@@ -66,14 +68,17 @@ function HockeyPitch({ selection, onMove, onAssign, exportMode=false }:{
     {SLOT_IDS.map((id,i)=>{
       const p=selection.positions[id]??DEFAULT_POSITIONS[id];
       const player=selection.starters[id]??"";
-      return <div key={id} onPointerDown={(e)=>pointerDown(e,id)} className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 ${exportMode?"w-[31%]":"w-[34%] touch-none sm:w-[29%]"}`} style={{left:`${p.x}%`,top:`${p.y}%`}}>
+      return <div key={id} onPointerDown={(e)=>pointerDown(e,id)} className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 ${exportMode?"w-[31%]":"w-[34%] select-none sm:w-[29%]"}`} style={{left:`${p.x}%`,top:`${p.y}%`,touchAction:exportMode?"auto":"none"}}>
         {exportMode ? (
           player && <div className="sports-text rounded-full border-2 border-white bg-[var(--red)] px-2 py-2 text-center text-sm font-bold uppercase text-white shadow-lg">{player}</div>
         ) : (
-          <select value={player} onPointerDown={(e)=>e.stopPropagation()} onChange={(e)=>onAssign?.(id,e.target.value)} className={`sports-text min-h-11 w-full rounded-full border-2 px-2 text-center text-[11px] font-bold uppercase outline-none ${player?"border-white bg-[var(--red)] text-white":"border-white/80 bg-black/75 text-white"}`}>
+          <div className="relative pt-7">
+            <div aria-hidden="true" className="absolute left-1/2 top-0 flex h-8 w-14 -translate-x-1/2 items-center justify-center rounded-t-lg border border-b-0 border-white/70 bg-black/80 text-base font-bold text-white">↕</div>
+            <select value={player} onPointerDown={(e)=>e.stopPropagation()} onChange={(e)=>onAssign?.(id,e.target.value)} className={`sports-text min-h-11 w-full rounded-full border-2 px-2 text-center text-[11px] font-bold uppercase outline-none ${player?"border-white bg-[var(--red)] text-white":"border-white/80 bg-black/75 text-white"}`}>
             <option value="">{i===0?"GK":"POSITION"}</option>
             {selection.players.map((name)=><option key={name} value={name} disabled={assigned.has(name)&&player!==name}>{name}</option>)}
-          </select>
+            </select>
+          </div>
         )}
       </div>;
     })}
@@ -113,7 +118,7 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
       <section className="rounded-xl border border-white/15 bg-[#171719] p-3 sm:p-5">
         <div className="mb-4 flex items-center justify-between"><div><p className="meta text-white/55">Starting XI</p><p className="sports-text text-xl font-bold">{startingCount}/11 SELECTED</p></div><button onClick={resetPositions} className="sports-text min-h-11 rounded-lg border border-white/20 px-3 text-xs font-bold uppercase text-white/70">Reset positions</button></div>
         <HockeyPitch selection={selection} onMove={move} onAssign={assign}/>
-        <p className="mt-3 text-center text-xs font-medium text-white/60">Drag a player marker to create your own formation.</p>
+        <p className="mt-3 text-center text-xs font-medium text-white/60">Drag using the ↕ handle above each player. The pitch stays put while you move them.</p>
         <div className="mt-4 rounded-lg border border-white/15 bg-black/25 p-4"><div className="flex justify-between"><p className="sports-text font-bold uppercase">Bench</p><span className="text-sm text-white/60">{selection.bench.length}/5</span></div><div className="mt-3 flex min-h-10 flex-wrap gap-2">{selection.bench.length?selection.bench.map(p=><button key={p} onClick={()=>toggleBench(p)} className="min-h-10 rounded-full border border-[var(--red)] bg-[var(--red)]/20 px-4 text-sm font-semibold">{p} ×</button>):<p className="text-sm text-white/45">No substitutes selected.</p>}</div></div>
       </section>
 
