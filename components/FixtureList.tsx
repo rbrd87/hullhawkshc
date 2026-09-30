@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import {
   HULL_HAWKS_TEAM,
+  displayTeamName,
   isHawksHome,
   opponentForHawks,
   opponentLogoForHawks,
