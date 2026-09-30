@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 
 import type { Fixture } from "@/types/hockey";
+import { displayTeamName } from "@/lib/hockey";
 
 import {
   automaticBackgroundForTeam,
@@ -90,7 +91,7 @@ function formatFixtureOption(fixture: GraphicsFixture) {
     month: "short",
   }).format(new Date(`${fixture.date}T12:00:00`));
 
-  return `${date} — ${fixture.homeTeam} vs ${fixture.awayTeam}`;
+  return `${date} — ${displayTeamName(fixture.homeTeam)} vs ${displayTeamName(fixture.awayTeam)}`;
 }
 
 function resultHeadline(
@@ -193,7 +194,7 @@ function Crest({ team, logo }: { team: string; logo: string }) {
       </div>
 
       <p className="sports-text mt-[2cqw] w-[31cqw] text-center text-[4.2cqw] font-semibold uppercase leading-[.95] text-white">
-        {team}
+        {displayTeamName(team)}
       </p>
     </div>
   );
@@ -580,7 +581,7 @@ export default function GraphicsGenerator({ fixtures }: Props) {
       });
 
       const fixtureName =
-        `${selectedFixture.homeTeam}-vs-${selectedFixture.awayTeam}`
+        `${displayTeamName(selectedFixture.homeTeam)}-vs-${displayTeamName(selectedFixture.awayTeam)}`
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, "-")
           .replace(/^-|-$/g, "");
@@ -697,7 +698,7 @@ export default function GraphicsGenerator({ fixtures }: Props) {
                     <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-end gap-3">
                       <div>
                         <p className="mb-2 truncate text-center text-xs text-white/45">
-                          {selectedFixture.homeTeam}
+                          {displayTeamName(selectedFixture.homeTeam)}
                         </p>
 
                         <input
@@ -718,7 +719,7 @@ export default function GraphicsGenerator({ fixtures }: Props) {
 
                       <div>
                         <p className="mb-2 truncate text-center text-xs text-white/45">
-                          {selectedFixture.awayTeam}
+                          {displayTeamName(selectedFixture.awayTeam)}
                         </p>
 
                         <input
