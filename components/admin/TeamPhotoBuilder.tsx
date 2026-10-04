@@ -34,6 +34,8 @@ function graphicDate(date: string) {
 export default function TeamPhotoBuilder({ fixtures }: { fixtures: Fixture[] }) {
   const exportRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [previewScale, setPreviewScale] = useState(0.5);
   const [fixtureId, setFixtureId] = useState(fixtures[0]?.id ?? "");
   const [photo, setPhoto] = useState<string>("");
   const [photoX, setPhotoX] = useState(50);
@@ -45,6 +47,16 @@ export default function TeamPhotoBuilder({ fixtures }: { fixtures: Fixture[] }) 
   const [downloading, setDownloading] = useState(false);
 
   const fixture = fixtures.find((f) => f.id === fixtureId) ?? fixtures[0];
+
+  useEffect(() => {
+    const element = previewRef.current;
+    if (!element) return;
+    const update = () => setPreviewScale(element.clientWidth / 1080);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!fixture) return;
@@ -145,11 +157,16 @@ export default function TeamPhotoBuilder({ fixtures }: { fixtures: Fixture[] }) 
           </aside>
 
           <section className="min-w-0">
-            <div className="mx-auto aspect-[3/4] w-full max-w-[650px] overflow-hidden rounded-xl border border-white/15 bg-[#111]">
-              <div className="h-full w-full origin-top-left scale-[.602] sm:scale-[.602]">
+            <p className="meta mb-2 text-white/55">Final image preview</p>
+            <div ref={previewRef} className="mx-auto aspect-[3/4] w-full max-w-[650px] overflow-hidden rounded-xl border border-white/15 bg-[#111]">
+              <div
+                className="origin-top-left"
+                style={{ transform: `scale(${previewScale})`, width: 1080, height: 1440 }}
+              >
                 <Graphic fixture={fixture} photo={photo} photoX={photoX} photoY={photoY} zoom={zoom} panelSide={panelSide} squad={squad} subs={subs} hawksHome={hawksHome} opponentName={opponentName}/>
               </div>
             </div>
+            <p className="mt-2 text-center text-xs text-white/45">This preview matches the downloaded 1080 × 1440 graphic.</p>
           </section>
         </div>
 
