@@ -8,6 +8,12 @@ const adminSections = [
     status: "Available",
   },
   {
+    title: "Team Photo",
+    description: "Turn a matchday team photo into a Hawks social graphic.",
+    href: "/admin/team-photo",
+    status: "Available",
+  },
+  {
     title: "Players",
     description: "Manage the private Hull Hawks squad.",
     href: "#",
