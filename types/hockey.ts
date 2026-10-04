@@ -11,6 +11,9 @@ export interface Fixture {
   homeScore?: number;
   awayScore?: number;
   venue?: string;
+  competitionId: string;
+  competitionName: string;
+  isCup: boolean;
   status: MatchStatus;
 }
 
