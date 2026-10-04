@@ -95,10 +95,8 @@ export function MatchCard({
       <div className="flex min-h-[44px] items-start justify-between gap-5">
         <p className="section-title">{title}</p>
 
-        <p className="max-w-[150px] text-right text-[10px] font-medium uppercase tracking-[.12em] text-white/42">
-          YNE Peak &amp; Wold
-          <br />
-          Women&apos;s Division 1
+        <p className="max-w-[170px] text-right text-[10px] font-medium uppercase tracking-[.12em] text-white/42">
+          {fixture.competitionName}
         </p>
       </div>
 
