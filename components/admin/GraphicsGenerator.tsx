@@ -26,8 +26,6 @@ type Props = {
   fixtures: GraphicsFixture[];
 };
 
-const COMPETITION_NAME = "YNE PEAK & WOLD WOMEN'S DIVISION 1";
-
 const DEFAULT_BACKGROUND_POSITION = 50;
 const DEFAULT_BACKGROUND_ZOOM = 100;
 
@@ -226,7 +224,7 @@ function NextMatchGraphic({
 
 
       <p className="sports-text absolute left-1/2 top-[7%] w-[88%] -translate-x-1/2 text-center text-[3.5cqw] font-semibold uppercase tracking-[.08em] text-white">
-        {COMPETITION_NAME}
+        {fixture.competitionName}
       </p>
 
       <img
@@ -299,7 +297,7 @@ function FullTimeGraphic({
 
       {/* Competition */}
       <p className="sports-text absolute left-1/2 top-[5%] w-[82%] -translate-x-1/2 text-center text-[2.7cqw] font-semibold uppercase tracking-[.08em] text-white">
-        {COMPETITION_NAME}
+        {fixture.competitionName}
       </p>
 
       {/* Full Time - deliberately much larger */}

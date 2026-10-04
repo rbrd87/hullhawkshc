@@ -30,7 +30,7 @@ function emptySelection(): SavedSelection {
 function opponent(f: Fixture) { return f.homeTeam === HULL_HAWKS_TEAM ? f.awayTeam : f.homeTeam; }
 function fixtureLabel(f: Fixture) {
   const date=new Intl.DateTimeFormat("en-GB",{weekday:"short",day:"numeric",month:"short"}).format(new Date(`${f.date}T12:00:00`));
-  return `${date} · vs ${displayTeamName(opponent(f))}`;
+  return `${date} · vs ${displayTeamName(opponent(f))}${f.isCup?" · CUP":""}`;
 }
 
 function HockeyPitch({ selection, onMove, onAssign, exportMode=false, homeMatch=false }:{
@@ -134,7 +134,7 @@ export default function SelectionBuilder({fixtures}:{fixtures:Fixture[]}) {
 
     <div className="pointer-events-none fixed left-[-99999px] top-0"><div ref={exportRef} className="box-border flex h-[1440px] w-[1080px] flex-col overflow-hidden bg-[#0d0d0e] px-[64px] py-[54px] text-white">
       <div className="flex items-center gap-6"><img src="/images/hull-hawks-logo.png" alt="" className="h-28 w-28 object-contain"/><div><p className="sports-text text-4xl font-bold uppercase text-[var(--red)]">Hull Hawks HC</p><h2 className="sports-text text-7xl font-bold uppercase">Team Selection</h2></div></div>
-      <div className="mt-6 border-y border-white/20 py-4"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>}</div>
+      <div className="mt-6 border-y border-white/20 py-4"><p className="sports-text text-4xl font-bold">{fixture?fixtureLabel(fixture):"Matchday Squad"}</p>{fixture&&<><p className="mt-2 text-2xl text-white/65">{fixture.venue??"Venue TBC"} · {fixture.time??"TBC"}</p>{fixture.isCup&&<p className="sports-text mt-2 text-xl font-bold uppercase tracking-[.12em] text-[var(--red)]">{fixture.competitionName}</p>}</>}</div>
       <div className="mt-7 flex min-h-0 flex-1 items-start gap-9">
         <div className="w-[590px] shrink-0"><HockeyPitch selection={selection} exportMode homeMatch={homeMatch}/></div>
         <div className="min-w-0 flex-1 pt-2">

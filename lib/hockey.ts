@@ -106,7 +106,10 @@ function mapStatus(fixture: EnglandHockeyFixture): MatchStatus {
   return "scheduled";
 }
 
-function mapFixture(fixture: EnglandHockeyFixture): Fixture {
+function mapFixture(
+  fixture: EnglandHockeyFixture,
+  competition: FixturesAndResultsCompetition,
+): Fixture {
   const completed = fixture.isResult;
 
   return {
@@ -123,6 +126,9 @@ function mapFixture(fixture: EnglandHockeyFixture): Fixture {
     homeScore: completed ? fixture.homeTeamScoreAsInt : undefined,
     awayScore: completed ? fixture.awayTeamScoreAsInt : undefined,
     venue: fixture.venue || undefined,
+    competitionId: competition.competitionId,
+    competitionName: competition.competitionName,
+    isCup: competition.competitionName.toLowerCase().includes("cup"),
     status: mapStatus(fixture),
   };
 }
@@ -147,17 +153,9 @@ async function getFixtures(): Promise<Fixture[]> {
 
   const response = await fetchJson<FixturesAndResultsCompetition[]>(url);
 
-  const league = response.find(
-    (competition) => competition.competitionId === COMPETITION_ID,
+  return response.flatMap((competition) =>
+    competition.fixtures.map((fixture) => mapFixture(fixture, competition)),
   );
-
-  if (!league) {
-    throw new Error(
-      "Hull Hawks league competition was not found in fixturesandresults.",
-    );
-  }
-
-  return league.fixtures.map(mapFixture);
 }
 
 async function getTable(): Promise<LeagueRow[]> {
