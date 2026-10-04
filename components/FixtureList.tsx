@@ -39,9 +39,12 @@ function FixtureRow({ fixture }: { fixture: Fixture }) {
     <div className="py-5">
       {/* Mobile */}
       <div className="md:hidden">
-        <p className="sports-text text-lg font-semibold uppercase">
-          {fmt.format(new Date(`${fixture.date}T12:00:00`))}
-        </p>
+        <div className="flex items-center justify-between gap-3">
+          <p className="sports-text text-lg font-semibold uppercase">
+            {fmt.format(new Date(`${fixture.date}T12:00:00`))}
+          </p>
+          {fixture.isCup && <span className="sports-text rounded bg-[var(--red)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-[.14em] text-white">Cup</span>}
+        </div>
 
         <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
           <div className="flex min-w-0 items-center gap-3">
@@ -89,9 +92,12 @@ function FixtureRow({ fixture }: { fixture: Fixture }) {
       {/* Desktop/tablet - unchanged layout */}
       <div className="hidden md:grid md:grid-cols-[150px_1fr_auto] md:items-center md:gap-4">
         <div>
-          <p className="sports-text text-lg font-semibold uppercase">
-            {fmt.format(new Date(`${fixture.date}T12:00:00`))}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="sports-text text-lg font-semibold uppercase">
+              {fmt.format(new Date(`${fixture.date}T12:00:00`))}
+            </p>
+            {fixture.isCup && <span className="sports-text rounded bg-[var(--red)] px-2 py-1 text-[10px] font-bold uppercase tracking-[.12em] text-white">Cup</span>}
+          </div>
           <p className="mt-1 text-sm text-white/40">{fixture.time ?? "TBC"}</p>
         </div>
 
